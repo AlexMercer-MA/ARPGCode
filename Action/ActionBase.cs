@@ -32,7 +32,7 @@ public abstract class ActionBase : MonoBehaviour
     public int ID;
     public string Name;
     public string des;
-    public string image;sss
+    public string image;
     public float coolDown;
     public float energyCost;
     public string effectRatio;
