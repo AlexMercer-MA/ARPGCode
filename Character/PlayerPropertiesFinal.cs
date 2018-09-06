@@ -174,8 +174,10 @@ public class PlayerPropertiesFinal : MonoBehaviour
     public float _resPenePer;
 
     //进攻属性 其他（减冷却，减耗，精准）
+    public float Cdr_Action { get { return Mathf.Clamp(_cdr, 1.0f, 0.0f); } }//CDR For Action（当前技能直接乘以这个系数就是最终冷却时间）
     public float Cdr { get { return Mathf.Clamp(_cdr, 0.0f, 1.0f); } set { _cdr = value; } }//CDR上限100%
     public float _cdr;
+    public float Csr_Action { get { return Mathf.Clamp(_csr, 1.0f, 0.0f); } }//CSR For Action（当前技能直接乘以这个系数就是最终消耗百分比）
     public float Csr { get { return Mathf.Clamp(_csr, 0.0f, 1.0f); } set { _csr = value; } }//减耗上限100%
     public float _csr;
     public float Acc { get { return _acc; } set { _acc = value; } }//精准可以为负
@@ -267,6 +269,21 @@ public class PlayerPropertiesFinal : MonoBehaviour
     public float Sp { get { return Mathf.Clamp(_sp, 0.0f, SpMax); } set { _sp = value; } }
     public float _sp;
     public int Sp_Int;
+
+    //KP 职业资源 
+    //KPA_f 职业float资源A   TODO 有待完善
+    public float KPA_f { get {return kpa_float; } set { kpa_float = value; } }
+    private float kpa_float;
+    //KPB_f 职业float资源B   TODO 有待完善
+    public float KPB_f { get { return kpb_float; } set { kpb_float = value; } }
+    private float kpb_float;
+
+    //KPA_i 职业int资源A   TODO 有待完善
+    public float KPA_i { get { return kpa_int; } set { kpa_int = value; } }
+    private float kpa_int;
+    //KPB_i 职业int资源B   TODO 有待完善
+    public float KPB_i { get { return kpb_int; } set { kpb_int = value; } }
+    private float kpb_int;
 
     //受治疗固定数值加成（技能，药剂和神符）
     public int HpReciFix { get { return _hpReciFix; } set { _hpReciFix = value; } }

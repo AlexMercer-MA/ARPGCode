@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ActionPanelUIManager : MonoBehaviour {
 
-    public static ActionPanelUIManager GetInstace { get; set; }
+    public static ActionPanelUIManager GetInstance { get; set; }
 
     public UI_ActionIcon UI_Action_Tab;
     public UI_ActionIcon UI_Action_LMB;
@@ -22,7 +23,17 @@ public class ActionPanelUIManager : MonoBehaviour {
 
     private void Awake()
     {
-        GetInstace = this;
+        GetInstance = this;
+    }
+
+    private void Start()
+    {
+        ActionManager.GetInstance.EvtActionPreCheck += OnActionPreCheck;
+    }
+
+    private void OnActionPreCheck(object obj,EventArgs e)
+    {
+
     }
 
     public void SetHighLightUI(ActionKey action)
@@ -58,5 +69,11 @@ public class ActionPanelUIManager : MonoBehaviour {
             default:
                 break;
         }
+    }
+
+    public void ResetUI()
+    {
+        //取消所有高亮UI
+
     }
 }

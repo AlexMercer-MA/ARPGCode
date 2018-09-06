@@ -19,53 +19,41 @@ using UnityEngine;
 //    None,
 //}
 
-
 public class CharacterAction : MonoBehaviour
 {
 
     //单例模式
-    public static CharacterAction GetInstace;
+    public static CharacterAction GetInstance;
 
     //获取 CharacterBehaviour组件
     public CharacterBehaviour characterBehaviour;
     //获取 Animator组件
     public Animator anim;
 
+    //字典储存所有 ActionKey - ActionBase 键值对
+    public Dictionary<ActionKey, ActionBase> actionDic = new Dictionary<ActionKey, ActionBase>();
     //攻击和技能基类 ActionBase
-    public ActionBase action_LMB;
-    public ActionBase action_RMB;
-    public ActionBase action_Shift;
-    public ActionBase action_Q;
-    public ActionBase action_E;
-    public ActionBase action_R;
-    public ActionBase action_1;
-    public ActionBase action_2;
-    public ActionBase action_3;
-    public ActionBase action_4;
-    public ActionBase action_Tab;
-    
+    ActionBase action_LMB;
+    ActionBase action_RMB;
+    ActionBase action_Shift;
+    ActionBase action_Ctrl;
+    ActionBase action_Q;
+    ActionBase action_E;
+    ActionBase action_R;
+    ActionBase action_1;
+    ActionBase action_2;
+    ActionBase action_3;
+    ActionBase action_4;
+    ActionBase action_Tab;
+
     //动画控制器
 
-    //技能/动作冷却时间
-    //		public float basicAttackCD;
-    //		public float basicAttackTime;
-    //		public float specialAttackCD;
-    //		public float specialAttackTime;
-    //		public float skillCD_01;
-    //		public float skillTime_01;
-    //		public float skillCD_02;
-    //		public float skillTime_02;
-    //		public float skillCD_03;
-    //		public float skillTime_03;
-    //		public float evadeCD;
-    //		public float evadeTime;
-    //		public float PotionCD;
-    //		public float PotionTime;
+    //技能/动作冷却时间 写在actionBase类里
 
-    public Skills skill;
+    //public Skills skill;
 
     //玩家是不是在翻滚状态(翻滚状态无敌)
-    public bool isEvade = false;
+    //public bool isEvade = false;
 
     //武器拖尾渲染器
     public TrailRenderer trailRendererLeft;
@@ -76,12 +64,25 @@ public class CharacterAction : MonoBehaviour
     public float attackLayerWeight2;
     public float attackLayerWeight3;
 
-    void Start()
+    void Awake()
     {
-        GetInstace = this;
+        GetInstance = this;
+        //初始化字典
+        actionDic.Add(ActionKey.Action_LMB, action_LMB);
+        actionDic.Add(ActionKey.Action_RMB, action_RMB);
+        actionDic.Add(ActionKey.Action_Shift, action_Shift);
+        actionDic.Add(ActionKey.Action_Ctrl, action_Ctrl);
+        actionDic.Add(ActionKey.Action_Q, action_Q);
+        actionDic.Add(ActionKey.Action_E, action_E);
+        actionDic.Add(ActionKey.Action_R, action_R);
+        actionDic.Add(ActionKey.Action_1, action_1);
+        actionDic.Add(ActionKey.Action_2, action_2);
+        actionDic.Add(ActionKey.Action_3, action_3);
+        actionDic.Add(ActionKey.Action_4, action_4);
+        actionDic.Add(ActionKey.Action_Tab, action_Tab);
     }
 
-    void Update()
+    /*void Update()
     {
         //取消攻击层动画权重
         attackLayerWeight1 -= Time.deltaTime * 1f;  //layer1 Attack
@@ -99,356 +100,42 @@ public class CharacterAction : MonoBehaviour
         anim.SetLayerWeight(1, Mathf.Clamp01(attackLayerWeight1));
         anim.SetLayerWeight(2, Mathf.Clamp01(attackLayerWeight2));
         anim.SetLayerWeight(3, Mathf.Clamp01(attackLayerWeight3));
-    }
+    }*/
 
-    public void UseAction(ActionKey action)
+    //1 更新技能CD和 eProgress
+    public void UpdateAction()
     {
-        //设置高亮UI
-        ActionPanelUIManager.GetInstace.SetHighLightUI(action);
+        //TODO Effect Manager 如果人物进入锁定状态，则无法更新CD 并且 return
 
-        //TODO 其余UI的设置
-        //这一段代码需要重写 在UI管理类中
-        /*potion.isHighLight = false;
-        basicAttack.isHighLight = false;
-        specialAttack.isHighLight = false;
-        skillEvade.isHighLight = false;
-        skill01.isHighLight = false;
-        skill02.isHighLight = false;
-        skill03.isHighLight = false;*/
-        //这一段代码需要重写 在UI管理类中
-        
-        //if (Input.GetKey(KeyCode.Tab))//独立判断使用药剂
-        //{
-        //    potion.isHighLight = true;
-        //    //				if (!characterBehaviour.bInAction)
-        //    //				{
-        //    //					Potion_use ();
-        //    //				}
-        //    if (!potion.bInAction)
-        //    {
-        //        Potion_use();
-        //    }
-        //}
-        ////技能判断
-        //if (Input.GetKey(KeyCode.LeftShift))
-        //{
-        //    skillEvade.isHighLight = true;
-        //    if (!characterBehaviour.bInAction/*&&characterBehaviour.flatMove.magnitude>=0.1f*/)
-        //    {
-        //        Evade_use();
-        //    }
-        //}
-        //else if (Input.GetKey(KeyCode.Alpha1))
-        //{
-        //    skill01.isHighLight = true;
-        //    if (!characterBehaviour.bInAction)
-        //    {
-        //        Skill_01_use();
-        //    }
-        //}
-        //else if (Input.GetKey(KeyCode.Alpha2))
-        //{
-        //    skill02.isHighLight = true;
-        //    if (!characterBehaviour.bInAction)
-        //    {
-        //        Skill_02_use();
-        //    }
-        //}
-        //else if (Input.GetKey(KeyCode.Alpha3))
-        //{
-        //    skill03.isHighLight = true;
-        //    if (!characterBehaviour.bInAction)
-        //    {
-        //        Skill_03_use();
-        //    }
-        //}
-        //else if (Input.GetMouseButton(1))
-        //{
-        //    specialAttack.isHighLight = true;
-        //    if (!characterBehaviour.bInAction)
-        //    {
-        //        SpecialAttack_use();
-        //    }
-        //}
-        //else if (Input.GetMouseButton(0))
-        //{
-        //    basicAttack.isHighLight = true;
-        //    if (!characterBehaviour.bInAction)
-        //    {
-        //        BasicAttack_use();
-        //    }
-        //}
-        //同时操作时有优先级
-        //翻滚>技能1>技能2>技能3>右键>左键
+        //更新技能CD
+        foreach (ActionBase action in actionDic.Values)
+        {
+            //更新所有已经激活的技能的CD （只有学习过的 ActionKey 位置的 Action 才被激活）
+            if (!action.isActive) continue;
+            //(内部处理) Action 没有被锁定CD，就更新CD
+            action.Refresh(Time.deltaTime);
+        }
     }
 
-    //判断技能是否能使用，能使用则立即使用
-    //public void BasicAttack_use()
-    //{
-    //    if (basicAttack.skillTime >= basicAttack.cooldown)
-    //    {
-    //        if (PlayerPropertiesFinal.GetInstance.Sp >= basicAttack.energy * (1f - PlayerPropertiesFinal.GetInstance.Csr))
-    //        {
-    //            basicAttack.Action();//近战攻击
-    //            skill = Skills.basicAttack;
-    //        }
-    //        else
-    //        {
-    //            UI_Warning.GetInstance.WarnSP();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        UI_Warning.GetInstance.WarnCD();
-    //    }
-    //}
-
-    //public void SpecialAttack_use()
-    //{
-    //    if (specialAttack.skillTime >= specialAttack.cooldown)
-    //    {
-    //        if (PlayerPropertiesFinal.GetInstance.Sp >= specialAttack.energy * (1f - PlayerPropertiesFinal.GetInstance.Csr))
-    //        {
-    //            specialAttack.Action();
-    //            skill = Skills.specialAttack;
-    //        }
-    //        else
-    //        {
-    //            UI_Warning.GetInstance.WarnSP();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        UI_Warning.GetInstance.WarnCD();
-    //    }
-    //}
-
-    //public void Evade_use()
-    //{
-    //    if (skillEvade.skillTime >= skillEvade.cooldown)
-    //    {
-    //        if (PlayerPropertiesFinal.GetInstance.Sp >= skillEvade.energy * (1f - PlayerPropertiesFinal.GetInstance.Csr))
-    //        {
-    //            skillEvade.Action();
-    //            skill = Skills.evade;
-    //        }
-    //        else
-    //        {
-    //            UI_Warning.GetInstance.WarnSP();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        UI_Warning.GetInstance.WarnCD();
-    //    }
-    //}
-
-    //public void Skill_01_use()
-    //{
-    //    if (skill01.skillTime > skill01.cooldown)
-    //    {
-    //        if (PlayerPropertiesFinal.GetInstance.Sp >= skill01.energy * (1f - PlayerPropertiesFinal.GetInstance.Csr))
-    //        {
-    //            skill01.Action();
-    //            skill = Skills.skill01;
-    //        }
-    //        else
-    //        {
-    //            UI_Warning.GetInstance.WarnSP();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        UI_Warning.GetInstance.WarnCD();
-    //    }
-    //}
-
-    //public void Skill_02_use()
-    //{
-    //    if (skill02.skillTime > skill02.cooldown)
-    //    {
-    //        if (PlayerPropertiesFinal.GetInstance.Sp >= skill02.energy * (1f - PlayerPropertiesFinal.GetInstance.Csr))
-    //        {
-    //            skill02.Action();
-    //            skill = Skills.skill02;
-    //        }
-    //        else
-    //        {
-    //            UI_Warning.GetInstance.WarnSP();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        UI_Warning.GetInstance.WarnCD();
-    //    }
-    //}
-
-    //public void Skill_03_use()
-    //{
-    //    if (skill03.skillTime > skill03.cooldown)
-    //    {
-    //        if (PlayerPropertiesFinal.GetInstance.Sp >= skill03.energy * (1f - PlayerPropertiesFinal.GetInstance.Csr))
-    //        {
-    //            skill03.Action();
-    //            skill = Skills.skill03;
-    //        }
-    //        else
-    //        {
-    //            UI_Warning.GetInstance.WarnSP();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        UI_Warning.GetInstance.WarnCD();
-    //    }
-    //}
-
-
-    //public void Potion_use()
-    //{
-    //    if (potion.skillTime > potion.cooldown)
-    //    {
-    //        if (PlayerPropertiesFinal.GetInstance.Sp >= potion.energy * (1f - PlayerPropertiesFinal.GetInstance.Csr))
-    //        {
-    //            potion.Action();
-    //            skill = Skills.potion;
-    //        }
-    //        else
-    //        {
-    //            UI_Warning.GetInstance.WarnSP();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        UI_Warning.GetInstance.WarnCD();
-    //    }
-    //}
-
-    //做一次圆形或者扇形范围检测，然后将检测结果的GameObject传给具体技能实现脚本做计算
-    public void SphereDetect(int skillNum)
+    //2 操作当前Action
+    public void UseAction(ActionKey actionKey)
     {
-        //根据技能不同选择不同的判断方法
-        //switch (skillNum)
-        //{
-        //    case 0:
-        //        break;
-        //    case 1:
-        //        basicAttack.SphereDetect();
-        //        break;
-        //    case 2:
-        //        specialAttack.SphereDetect();
-        //        //暂时不用
-        //        break;
-        //    case 3:
-        //        skill01.SphereDetect();
-        //        break;
-        //    case 4:
-        //        skill02.SphereDetect();
-        //        break;
-        //    case 5:
-        //        break;
-        //    case 6:
-        //        break;
-        //    case 7:
-        //        break;
-        //    default:
-        //        break;
-        //}
+        //在UI模式 或 没有按键的时候， 则没有 Action 被释放
+        if (CharacterBehaviour.GetInstace.inUIMode || actionKey == ActionKey.None)
+        {
+            //复位所有UI(取消所有的高亮 ActionKey UI)
+            ActionPanelUIManager.GetInstance.ResetUI();
+            return;
+        }
+
+        //无论是否释放成功，都要设置高亮UI
+        ActionPanelUIManager.GetInstance.SetHighLightUI(actionKey);
+        //判断对应按键是否有技能 ActionBase 类
+        ActionBase action;
+        if (!actionDic.TryGetValue(actionKey, out action)) return;
+        //判断是否能使用技能
+        action.ActionPreCheck(actionKey);
     }
 
-    //清空目标组
-    public void ClearTargetGroup(int skillNum)
-    {
-        //根据技能不同选择不同的判断方法
-        //switch (skillNum)
-        //{
-        //    case 0:
-        //        break;
-        //    case 1:
-        //        basicAttack.ClearTargetGroup();
-        //        break;
-        //    case 2:
-        //        specialAttack.ClearTargetGroup();
-        //        break;
-        //    case 3:
-        //        break;
-        //    case 4:
-        //        break;
-        //    case 5:
-        //        break;
-        //    case 6:
-        //        break;
-        //    case 7:
-        //        break;
-        //    default:
-        //        break;
-        //}
-    }
-
-    public void AttackStart(int skillNum)
-    {
-        //根据技能不同选择不同的判断方法
-        //switch (skillNum)
-        //{
-        //    case 0:
-        //        break;
-        //    case 1:
-        //        break;
-        //    case 2:
-        //        specialAttack.AttackStart();
-        //        break;
-        //    case 3:
-        //        break;
-        //    case 4:
-        //        break;
-        //    case 5:
-        //        break;
-        //    case 6:
-        //        break;
-        //    case 7:
-        //        break;
-        //    default:
-        //        break;
-        //}
-    }
-
-    public void AttackOver(int skillNum)
-    {
-        //根据技能不同选择不同的判断方法
-        //    switch (skillNum)
-        //    {
-        //        case 0:
-        //            break;
-        //        case 1:
-        //            break;
-        //        case 2:
-        //            specialAttack.AttackOver();
-        //            break;
-        //        case 3:
-        //            break;
-        //        case 4:
-        //            break;
-        //        case 5:
-        //            break;
-        //        case 6:
-        //            break;
-        //        case 7:
-        //            break;
-        //        default:
-        //            break;
-        //    }
-    }
-}
-
-//技能类型枚举
-public enum Skills
-{
-    none,               //SkillNum 0
-    basicAttack,        //SkillNum 1
-    specialAttack,      //SkillNum 2
-    skill01,            //SkillNum 3
-    skill02,            //SkillNum 4
-    skill03,            //SkillNum 5
-    evade,              //SkillNum 6
-    potion,              //SkillNum 7
+    //TODO  03 更改动画权重（）
 }

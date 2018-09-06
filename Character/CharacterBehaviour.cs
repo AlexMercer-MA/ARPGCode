@@ -28,7 +28,8 @@ public enum Direction
 
 public class CharacterBehaviour : MonoBehaviour
 {
-    public static CharacterBehaviour GetInstace { get; set; }
+    public static CharacterBehaviour GetInstace { get { return instance; } }
+    private static CharacterBehaviour instance;
 
     //摄像机
     public GameObject cam;
@@ -36,8 +37,6 @@ public class CharacterBehaviour : MonoBehaviour
     public CharacterController cc;
     //动画控制器
     public Animator anim;
-    //Action类 动作控制类
-    public CharacterAction characterAction;
     //移动速度 现在移到 GameBaseProperties 中
     //public float moveSpeed;
     //角色转向平滑程度
@@ -155,7 +154,7 @@ public class CharacterBehaviour : MonoBehaviour
 
     void Awake()
     {
-        GetInstace = this;
+        instance = this;
         cam = Camera.main.gameObject;
         cc = gameObject.GetComponent<CharacterController>();
     }
@@ -164,17 +163,17 @@ public class CharacterBehaviour : MonoBehaviour
     //------------------------------------------------------------------------------------------
     void Update()
     {
-        // 玩家输入 PlayerInput
+        //01 玩家输入 PlayerInput
         PlayerInput();
 
-        // 重力 Gravity
+        //02 重力 Gravity
         //------------------------------------------------------------------------------------------
         if (!bIgnoreGravity)
         {
             Gravity();
         }
 
-        // 存活 IsDead
+        //03 存活 IsDead
         //------------------------------------------------------------------------------------------
         if (bIsDead)
         {
@@ -183,12 +182,12 @@ public class CharacterBehaviour : MonoBehaviour
             return;
         }
         
-        // 可以 控制  Can Control
+        //可以 控制  Can Control
         //------------------------------------------------------------------------------------------
         if (bCanControl)
         {
-            // 1 旋转玩家角度 Rotate
-            //------------------------------------------------------------------------------------------
+        // 04 旋转玩家角度 Rotate
+        //------------------------------------------------------------------------------------------
             if (!bLockRotate && !inUIMode && eLockRotationDir == Direction.None)
             {
                 Rotate();
@@ -204,8 +203,8 @@ public class CharacterBehaviour : MonoBehaviour
             }
             // 其余情况 锁定旋转 不用处理(bLockRotate 或者 inUIMode)
 
-            //------------------------------------------------------------------------------------------
-            // 2 移动玩家 Move
+        // 05 移动玩家 Move
+        //------------------------------------------------------------------------------------------
             if (bCanMove)
             {
                 if (bLockMove)
@@ -219,35 +218,25 @@ public class CharacterBehaviour : MonoBehaviour
                 }
             }
 
-            //------------------------------------------------------------------------------------------
-            // 3 跳跃 Jump
+        // 06 跳跃 Jump
+        //------------------------------------------------------------------------------------------
             if (!inUIMode && bCanJump)
             {
                 Jump();
             }
 
-            //------------------------------------------------------------------------------------------
-            //06 Attack&Skills玩家释放技能
-            //每一次Update中只能对一个输入值进行Action
-            if (!inUIMode && actionKey != ActionKey.None)
-            {
-                characterAction.UseAction(actionKey);
-            }
+        //07 根据PlayerInput 决定 Attack&Skills玩家释放技能
+        //------------------------------------------------------------------------------------------
+            //07-1  先更新所有激活Action           无论是否有输入，都需要更新Action
+            CharacterAction.GetInstance.UpdateAction();         //处理刷新
+            //07-2  再操作当前Action               每一次Update中只能对一个输入值进行Action
+            CharacterAction.GetInstance.UseAction(actionKey);   //处理输入值
         }
         else
         {
             CannotControl(); //如果不能控制的操作
         }
     }
-
-
-
-
-
-
-
-
-
 
     //  FixedUpdate 主循环
     //------------------------------------------------------------------------------------------
