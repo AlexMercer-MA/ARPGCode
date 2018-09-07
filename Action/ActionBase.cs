@@ -8,6 +8,7 @@ public abstract class ActionBase : MonoBehaviour
 {
     // 基础属性
     public Animator anim;                           //动画状态机
+    public ActionKey actionKey;                     //Action按键
 
     // 静态属性（从EXCEL读取）
     public int ID;                                  //技能ID
@@ -20,137 +21,30 @@ public abstract class ActionBase : MonoBehaviour
     public float kpBfCost;                          //消耗kpB float能量
     public int kpAiCost;                            //消耗kpA int能量
     public int kpBiCost;                            //消耗kpB int能量
-    //public string effectRatio;                    //(影响范围，应该放在更高级的类中)
-    // 打断相关（核心需求：Shift翻滚可以打断部分技能，右键技能可以打断左键技能）
-    public string isCanNotBreak;                    //是否无法被打断
-    public string isCanBreakOther;                  //是否可以打断其他技能
-    public string nCanNotBreakLv;                   //防止被打断级别
-    public string nBreakOtherLv;                    //可以打断级别
-    public string isCanCastInDisabled;              //是否可以在被控制情况下使用
+    public float chargeTime;                        //蓄力时间（没有就是0）
+    public float singTIme;                          //吟唱时间（没有就是0）
+    public float channelTime;                       //通道时间（这个是倒计时！）
+    public string isCanNotBreak;                    //是否无法被打断（最高优先级）   （需求：Shift翻滚可以打断部分技能，右键技能可以打断左键技能）
+    public string isCanBreakOther;                  //是否可以打断其他技能（如果不能打断其他技能，则无需判断打断优先关系）
+    public string nCanNotBreakLv;                   //防止被打断级别（如果相等，则可以打断）
+    public string nBreakOtherLv;                    //可以打断级别（如果相等，则可以打断）   （类似的控制级别和防止控制级别，也可以这样制作）
+    public string isCanCastInDisabled;              //是否可以在被控制情况下使用（拥有最高优先级，可以在一切被控制状态下使用）
 
     // 运行属性
     public bool isActive;                           //Action 是否被激活
     public ActionProgressType eProgress;            //Action 的状态阶段
+    public ActionPreCheckInfo actionPreCheckInfo;   //ActionPreCheckInfo
+    public ActionChargeInfo actionChargeInfo;       //ActionChargeInfo
+    public ActionSingInfo actionSingInfo;           //ActionSingInfo
+    public ActionCastInfo actionCastInfo;           //ActionCastInfo
     public bool isLockCD;                           //CD是否被锁定
     public float actionTimeStamp;                   //技能时间戳，用以和CD对比
-    public ActionCastType castType;
-    public ActionEffectType effectType;
+    public float actionChargeStamp;                 //技能蓄力程度
+    public float actionSingStamp;                   //技能吟唱戳
+    public ActionCastType castType;                 //技能释放类型 1普通/2蓄力/3吟唱/4通道/5独立
+    public ActionEffectType effectType;             //技能效果类型 
 
-    // -------------------------------------方法-------------------------------------
-    public void Start()
-    {
-
-    }
-
-    // 每帧刷新操作  每次Update时，由CharacterAction调用
-    public virtual void Refresh(float deltaTime)
-    {
-        if (!isLockCD)
-        {
-            actionTimeStamp += deltaTime;
-        }
-    }
-
-    // 重置CD
-    public virtual void ResetCD()
-    {
-        actionTimeStamp = 0f;
-    }
-
-    // -------------------------------------Action方法-------------------------------------
-    // 1  ActionPreCheck
-    public virtual void ActionPreCheck(ActionKey actionKey)
-    {
-        //通过全部检查 则可以释放技能
-        ActionPreCheckInfo info = new ActionPreCheckInfo();
-        info.actionKey = actionKey;
-        info.actor = this.gameObject;
-
-        // TODO Slience 检查
-        // TODO 具体逻辑
-
-        if (!ActionPreCheckEnergy())
-        {
-            info.result = EActionPreCheckResult.EnergyCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, info);
-            return;
-        }
-
-        if (kpAfCost > 0 && !ActionPreCheckKpAf())
-        {
-            info.result = EActionPreCheckResult.KPAfCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, info);
-            return;
-        }
-
-        if (kpBfCost > 0 && !ActionPreCheckKpBf())
-        {
-            info.result = EActionPreCheckResult.KPBfCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, info);
-            return;
-        }
-
-        if (kpAiCost > 0 && !ActionPreCheckKpAi())
-        {
-            info.result = EActionPreCheckResult.KPAiCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, info);
-            return;
-        }
-
-        if (kpBiCost > 0 && !ActionPreCheckKpBi())
-        {
-            info.result = EActionPreCheckResult.KPBiCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, info);
-            return;
-        }
-
-        if (!ActionPreCheckCD())
-        {
-            info.result = EActionPreCheckResult.CDCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, info);
-            return;
-        }
-
-        info.result = EActionPreCheckResult.Success;
-        ActionManager.GetInstance.ActionPreCheck(this, info);
-        ActionChargeStart(info);
-        return;
-    }
-
-
-    // 2 ActionChargeStart
-    public virtual void ActionChargeStart(ActionPreCheckInfo info)
-    {
-        //开始播放动画
-
-    }
-    
-
-    //3 ActionChargeEnd
-
-
-    //4 ActionSingStart
-
-
-    //5 ActionSingEnd
-
-
-
-
-
-
-
-    //public virtual void ActionFinish();            // Action 执行完成
-    //public virtual void ActionOver();              // Action 全部完成（最终完成）
-
-
-    //public virtual void SphereDetect();            // 进行一次球体检测
-    //public virtual void ClearTargetGroup();        // 清空检测检测组（这样仅仅保存一个碰撞信息）
-
-
-
-    /*
-     * --------------------------判断CD--------------------------
+    /* ----------------------------- 判断CD -----------------------------
      * 在TryAction中 如果 bInProgress == false && Time.time >= actionTimeStamp + coolDown
      * 才可以正式开始
      * 
@@ -162,13 +56,208 @@ public abstract class ActionBase : MonoBehaviour
      * 设置 actionTimeStamp通常会在 ActionOver中进行
      * */
 
-    /*
-     * --------------------------打断优先级--------------------------
+    /* ----------------------------- 打断优先级 -----------------------------
      * nCanNotBreakLv 是防止被打断级别
      * nBreakOtherLv 是可以打断级别
      * 当一个可以被打断的技能进行中，释放了另一个有打断权限的技能
      * 如果防止打断级别 >= 打断级别，则无法打断
      * */
+
+    //更高级抽象的属性
+    //public string effectRatio;                    //(影响范围，应该放在更高级的类中)
+
+    // ------------------------------------- 初始化 -------------------------------------
+    public virtual void Initilize(ActionKey actionKey)
+    {
+        this.actionKey = actionKey;
+        actionPreCheckInfo = new ActionPreCheckInfo(this, this.gameObject, this.actionKey);
+        actionChargeInfo = new ActionChargeInfo(this, this.gameObject, this.actionKey);
+        actionSingInfo = new ActionSingInfo(this, this.gameObject, this.actionKey);
+        actionCastInfo = new ActionCastInfo(this, this.gameObject, this.actionKey);
+        isActive = true;
+    }
+
+    // ------------------------------------- 帧刷新 -------------------------------------
+    // 每帧刷新操作  每次Update时，由CharacterAction调用
+    public virtual void Refresh(float deltaTime)
+    {
+        if (!isActive) { return; }
+        if (!isLockCD)
+        {
+            //如果在 冷却阶段，需要持续向UI或其他发消息
+            actionTimeStamp += deltaTime;
+            ActionManager.GetInstance.ActionCooldownUpdate();   //TODO
+        }
+        else
+        {
+            //如果在 蓄力Charge/吟唱Sing/释放Cast 阶段，需要持续向UI或其他发消息
+            switch (eProgress)
+            {
+                case ActionProgressType.Charge:
+                    ActionManager.GetInstance.ActionChargeUpdate(actionChargeStamp);
+                    break;
+                case ActionProgressType.Sing:
+                    ActionManager.GetInstance.ActionSingUpdate(actionSingStamp);
+                    break;
+                case ActionProgressType.Channel:
+                    ActionManager.GetInstance.ActionSingUpdate(actionChannelStamp);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    // ------------------------------------- 重置CD -------------------------------------
+    public virtual void ResetCD()
+    {
+        actionTimeStamp = 0f;
+    }
+
+    // --------------------------------- Action 生命周期方法 ---------------------------------
+    // 1  ActionPreCheck
+    public virtual void ActionPreCheck()
+    {
+        //通过全部检查 则可以释放技能
+
+        // TODO Slience 检查
+        // 具体逻辑
+
+        if (!ActionPreCheckEnergy())
+        {
+            info.result = EActionPreCheckResult.EnergyCheckFail;
+            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            return;
+        }
+
+        if (kpAfCost > 0 && !ActionPreCheckKpAf())
+        {
+            info.result = EActionPreCheckResult.KPAfCheckFail;
+            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            return;
+        }
+
+        if (kpBfCost > 0 && !ActionPreCheckKpBf())
+        {
+            info.result = EActionPreCheckResult.KPBfCheckFail;
+            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            return;
+        }
+
+        if (kpAiCost > 0 && !ActionPreCheckKpAi())
+        {
+            info.result = EActionPreCheckResult.KPAiCheckFail;
+            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            return;
+        }
+
+        if (kpBiCost > 0 && !ActionPreCheckKpBi())
+        {
+            info.result = EActionPreCheckResult.KPBiCheckFail;
+            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            return;
+        }
+
+        if (!ActionPreCheckCD())
+        {
+            info.result = EActionPreCheckResult.CDCheckFail;
+            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            return;
+        }
+
+        info.result = EActionPreCheckResult.Success;
+        ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+        if()
+        ActionChargeStart();
+        return;
+    }
+
+    // 2 ActionChargeStart
+    public virtual void ActionChargeStart()
+    {
+        //设置action状态
+        eProgress = ActionProgressType.Charge;
+        //开始播放动画
+        //TODO
+        //anim.SetTrigger()
+        actionChargeInfo.chargeProgress = 0f;
+        ActionManager.GetInstance.ActionChargeStart(this, actionChargeInfo);
+    }
+
+    // 3 ActionChargeUpdate
+    public virtual void ActionChargeUpdate(float process)
+    {
+        actionChargeInfo.chargeProgress = process;
+        ActionManager.GetInstance.ActionChargeUpdate(this, actionChargeInfo);
+    }
+
+    // 4 ActionChargeEnd
+    public virtual void ActionChargeEnd()
+    {
+        ActionManager.GetInstance.ActionChargeUpdate(this, actionChargeInfo);
+    }
+
+    // 5 ActionSingStart
+    public virtual void ActionSingStart()
+    {
+        //设置action状态
+        eProgress = ActionProgressType.Sing;
+        //开始播放动画
+        //TODO
+        //anim.SetTrigger()
+        actionSingInfo.singProgress = 0f;
+        ActionManager.GetInstance.ActionChargeStart(this, actionSingInfo);
+    }
+
+    // 6 ActionSingUpdate
+    public virtual void ActionSingUpdate(float process)
+    {
+        actionSingInfo.singProgress = process;
+        ActionManager.GetInstance.ActionChargeUpdate(this, actionSingInfo);
+    }
+
+    // 7 ActionSingEnd
+    public virtual void ActionSingEnd()
+    {
+        ActionManager.GetInstance.ActionChargeUpdate(this, actionSingInfo);
+    }
+
+    // 8 ActionCastStart
+    public virtual void ActionCastStart()
+    {
+        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+    }
+
+    // 9 ActionCastLaunch (可能由脚本触发，也可以由Animator触发)
+    public virtual void ActionCastLaunch()
+    {
+        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+    }
+
+    // 10 ActionCastEnd
+    public virtual void ActionCastEnd()
+    {
+        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+    }
+
+    // 11 ActionBreak
+    public virtual void ActionBreak()
+    {
+        ActionManager.GetInstance.ActionBreak(this, actionBreakInfo);
+    }
+
+
+
+
+
+
+    //public virtual void SphereDetect();            // 进行一次球体检测
+    //public virtual void ClearTargetGroup();        // 清空检测检测组（这样仅仅保存一个碰撞信息）
+
+
+
+   
+
 
     bool ActionPreCheckEnergy()                //检查能量消耗
     {
@@ -283,4 +372,5 @@ public enum ActionProgressType
     Charge,
     Sing,
     Cast,
+    Channel,
 }
