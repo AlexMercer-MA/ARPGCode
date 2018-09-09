@@ -29,7 +29,7 @@ public abstract class ActionBase : MonoBehaviour
     public string nCanNotBreakLv;                   //防止被打断级别（如果相等，则可以打断）
     public string nBreakOtherLv;                    //可以打断级别（如果相等，则可以打断）   （类似的控制级别和防止控制级别，也可以这样制作）
     public string isCanCastInDisabled;              //是否可以在被控制情况下使用（拥有最高优先级，可以在一切被控制状态下使用）
-
+    public float triggerRatio;                      //触发系数
     // 运行属性
     public bool isActive;                           //Action 是否被激活
     public ActionProgressType eProgress;            //Action 的状态阶段
@@ -240,7 +240,10 @@ public abstract class ActionBase : MonoBehaviour
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
-    // 11 ActionBreak
+    // 11 ActionChannelStart
+    public virtual void 
+
+    // 14 ActionBreak
     public virtual void ActionBreak()
     {
         ActionManager.GetInstance.ActionBreak(this, actionBreakInfo);
