@@ -21,10 +21,10 @@ public abstract class ActionBase : MonoBehaviour
     public float kpBfCost;                          //消耗kpB float能量
     public int kpAiCost;                            //消耗kpA int能量
     public int kpBiCost;                            //消耗kpB int能量
-    public float chargeTime;                        //蓄力时间（没有就是0）
-    public float singTIme;                          //吟唱时间（没有就是0）
-    public float channelTime;                       //通道时间（这个是倒计时！）
-    public string isCanNotBreak;                    //是否无法被打断（最高优先级）   （需求：Shift翻滚可以打断部分技能，右键技能可以打断左键技能）
+    public float chargeTime;                        //蓄力时间长度（没有就是0）
+    public float singTIme;                          //吟唱时间长度（没有就是0）
+    public float channelTime;                       //通道时间长度（这个是倒计时！）
+    public string isCanNotBreak;                    //是否无法被打断（这个属性拥有最高优先级）   （需求：Shift翻滚可以打断部分技能，右键技能可以打断左键技能）
     public string isCanBreakOther;                  //是否可以打断其他技能（如果不能打断其他技能，则无需判断打断优先关系）
     public string nCanNotBreakLv;                   //防止被打断级别（如果相等，则可以打断）
     public string nBreakOtherLv;                    //可以打断级别（如果相等，则可以打断）   （类似的控制级别和防止控制级别，也可以这样制作）
@@ -37,10 +37,12 @@ public abstract class ActionBase : MonoBehaviour
     public ActionChargeInfo actionChargeInfo;       //ActionChargeInfo
     public ActionSingInfo actionSingInfo;           //ActionSingInfo
     public ActionCastInfo actionCastInfo;           //ActionCastInfo
+    public ActionBreakInfo actionBreakInfo;         //ActionBreakInfo
     public bool isLockCD;                           //CD是否被锁定
     public float actionTimeStamp;                   //技能时间戳，用以和CD对比
     public float actionChargeStamp;                 //技能蓄力程度
     public float actionSingStamp;                   //技能吟唱戳
+    public float actionChannelStamp;                //通道技能引道戳
     public ActionCastType castType;                 //技能释放类型 1普通/2蓄力/3吟唱/4通道/5独立
     public ActionEffectType effectType;             //技能效果类型 
 
@@ -100,7 +102,7 @@ public abstract class ActionBase : MonoBehaviour
                     ActionManager.GetInstance.ActionSingUpdate(actionSingStamp);
                     break;
                 case ActionProgressType.Channel:
-                    ActionManager.GetInstance.ActionSingUpdate(actionChannelStamp);
+                    ActionManager.GetInstance.ActionChannelUpdate(actionChannelStamp);
                     break;
                 default:
                     break;
@@ -116,7 +118,7 @@ public abstract class ActionBase : MonoBehaviour
 
     // --------------------------------- Action 生命周期方法 ---------------------------------
     // 1  ActionPreCheck
-    public virtual void ActionPreCheck()
+    public virtual void ActionPreCheck(ActionBase action, ActionPreCheckInfo info)
     {
         //通过全部检查 则可以释放技能
 
@@ -167,8 +169,14 @@ public abstract class ActionBase : MonoBehaviour
 
         info.result = EActionPreCheckResult.Success;
         ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
-        if()
-        ActionChargeStart();
+        if (castType == ActionCastType.CHARGE)
+        {
+            ActionChargeStart();
+        }
+        else
+        {
+            ActionChargeStart();
+        }
         return;
     }
 
@@ -241,9 +249,30 @@ public abstract class ActionBase : MonoBehaviour
     }
 
     // 11 ActionChannelStart
-    public virtual void 
+    public virtual void ActionChannelStart()
+    {
+        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+    }
 
-    // 14 ActionBreak
+    // 12 ActionChannelLaunch (可能由脚本触发，也可以由Animator触发)
+    public virtual void ActionChannelLaunch()
+    {
+        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+    }
+
+    // 13 ActionChannelUpdate
+    public virtual void ActionChannelUpdate()
+    {
+        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+    }
+
+    // 14 ActionChannelEnd
+    public virtual void ActionChannelEnd()
+    {
+        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+    }
+    
+    // 15 ActionBreak
     public virtual void ActionBreak()
     {
         ActionManager.GetInstance.ActionBreak(this, actionBreakInfo);
@@ -334,10 +363,10 @@ public abstract class ActionBase : MonoBehaviour
  * */
 public enum ActionCastType
 {
-    Normal,
-    Sing,
-    Charge,
-    Channel,
+    NORMAL,
+    SING,
+    CHARGE,
+    CHANNEL,
     Independent,
 }
 
@@ -376,4 +405,16 @@ public enum ActionProgressType
     Sing,
     Cast,
     Channel,
+}
+
+/*
+ * --------------------------打断原因类型--------------------------
+ * 0 未在任何状态     （表示此技能没在释放）
+ * 1 蓄力中
+ * 2 吟唱中
+ * 3 释放中
+ * */
+public enum EActionBreakType
+{
+
 }

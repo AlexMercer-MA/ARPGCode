@@ -30,9 +30,9 @@ using UnityEngine;
  * 10EvtActionCastEnd               （Channel Action直接触发ActionEnd）
  * 11EvtActionChannelCastStart
  * 12EvtActionChannelCastUpdate
- * 12EvtActionChannelCastLanuch
- * 13EvtActionChannelCastEnd
- * 14EvtActionBreak
+ * 13EvtActionChannelCastLanuch
+ * 14EvtActionChannelCastEnd
+ * 15EvtActionBreak
  */
 
 public class ActionManager{
@@ -72,50 +72,141 @@ public class ActionManager{
 
     //3 EvtActionChargeUpdate
     //----------------------------------------------------------------------------------------
-    public event EventHandler EvtActionChargeStart;
+    public event EventHandler EvtActionChargeUpdate;
     public void ActionChargeUpdate(ActionBase action, ActionChargeInfo info)
     {
-        EvtActionChargeStart(this, info);
+        EvtActionChargeUpdate(this, info);
         return;
     }
 
     //4 EvtActionChargeEnd
     //----------------------------------------------------------------------------------------
-    public event EventHandler EvtActionChargeStart;
-    public void ActionChargeStart(ActionBase action, ActionChargeInfo info)
+    public event EventHandler EvtActionChargeEnd;
+    public void ActionChargeEnd(ActionBase action, ActionChargeInfo info)
     {
-        EvtActionChargeStart(this, info);
+        EvtActionChargeEnd(this, info);
         return;
     }
 
 
     //5 EvtActionSingStart
     //----------------------------------------------------------------------------------------
-    public event EventHandler EvtActionChargeStart;
+    public event EventHandler EvtActionSingStart;
     public void ActionChargeStart(ActionBase action, ActionSingInfo info)
     {
-        EvtActionChargeStart(this, info);
+        EvtActionSingStart(this, info);
         return;
     }
 
     //6 EvtActionSingUpdate
-    /Sing---------------------Sing--------------------------------------------------------
-    public event EventHandler EvtActionChargeStart;
+    //----------------------------------------------------------------------------------------
+    public event EventHandler EvtActionSingUpdate;
     public void ActionChargeUpdate(ActionBase action, ActionSingInfo info)
     {
-        EvtActionChargeStart(this, info);
+        EvtActionSingUpdate(this, info);
         return;
     }
 
     //7 EvtActionSingEnd
     //----------------------------------------------------------------------------------------
-    public event EventHandler EvtActionChargeStart;
-    public void ActionChargeStart(ActionBase action, ActionSingInfo info)
+    public event EventHandler EvtActionSingEnd;
+    public void ActionSingEnd(ActionBase action, ActionSingInfo info)
     {
-        EvtActionChargeStart(this, info);
+        EvtActionSingEnd(this, info);
         return;
     }
 
+    //8 EvtActionCastStart
+    //----------------------------------------------------------------------------------------
+    public event EventHandler EvtActionCastStart;
+    public void ActionCastStart(ActionBase action, ActionCastInfo info)
+    {
+        EvtActionCastStart(this, info);
+        return;
+    }
+
+    //9 EvtActionCastLaunch
+    //----------------------------------------------------------------------------------------
+    public event EventHandler EvtActionCastLaunch;
+    public void ActionCastLaunch(ActionBase action, ActionCastInfo info)
+    {
+        EvtActionCastLaunch(this, info);
+        return;
+    }
+
+    //10 EvtActionCastEnd
+    //----------------------------------------------------------------------------------------
+    public event EventHandler EvtActionCastEnd;
+    public void ActionCastEnd(ActionBase action, ActionCastInfo info)
+    {
+        EvtActionCastEnd(this, info);
+        return;
+    }
+    
+    //11 EvtActionChannelStart
+    //----------------------------------------------------------------------------------------
+    public event EventHandler EvtActionChannelStart;
+    public void ActionChannelStart(ActionBase action, ActionChannelInfo info)
+    {
+        EvtActionChannelStart(this, info);
+        return;
+    }
+
+    //12 EvtActionChannelLaunch
+    //----------------------------------------------------------------------------------------
+    public event EventHandler EvtActionChannelLaunch;
+    public void ActionChannelLaunch(ActionBase action, ActionChannelInfo info)
+    {
+        EvtActionChannelLaunch(this, info);
+        return;
+    }
+
+    //13 EvtActionChannelUpdate
+    //----------------------------------------------------------------------------------------
+    public event EventHandler EvtActionChannelUpdate;
+    public void ActionChannelUpdate(ActionBase action, ActionChannelInfo info)
+    {
+        EvtActionChannelUpdate(this, info);
+        return;
+    }
+
+    //14 EvtActionChannelEnd
+    //----------------------------------------------------------------------------------------
+    public event EventHandler EvtActionChannelEnd;
+    public void ActionChannelEnd(ActionBase action, ActionChannelInfo info)
+    {
+        EvtActionChannelEnd(this, info);
+        return;
+    }
+
+    //14 EvtActionBreak
+    //----------------------------------------------------------------------------------------
+    public event EventHandler EvtActionBreak;
+    public void ActionBreak(ActionBase action, ActionBreakInfo info)
+    {
+        EvtActionBreak(this, info);
+        return;
+    }
+
+    public void ActionCooldownUpdate()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ActionChargeUpdate(float actionChargeStamp)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ActionSingUpdate(float actionSingStamp)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ActionChannelUpdate(float actionChannelStamp)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class ActionPreCheckInfo : EventArgs
@@ -137,7 +228,7 @@ public class ActionChargeInfo : EventArgs
     public ActionBase action;
     public GameObject actor;
     public ActionKey actionKey;
-    public float chargeProcess = 0f;
+    public float chargeProgress = 0f;
     public ActionChargeInfo(ActionBase action, GameObject actor, ActionKey actionKey)
     {
         this.action = action;
@@ -151,7 +242,7 @@ public class ActionSingInfo : EventArgs
     public ActionBase action;
     public GameObject actor;
     public ActionKey actionKey;
-    public float singProcess = 0f;
+    public float singProgress = 0f;
     public ActionSingInfo(ActionBase action, GameObject actor, ActionKey actionKey)
     {
         this.action = action;
@@ -165,8 +256,35 @@ public class ActionCastInfo : EventArgs
     public ActionBase action;
     public GameObject actor;
     public ActionKey actionKey;
-    public bool isLanuched = false;
     public ActionCastInfo(ActionBase action, GameObject actor, ActionKey actionKey)
+    {
+        this.action = action;
+        this.actor = actor;
+        this.actionKey = actionKey;
+    }
+}
+
+public class ActionChannelInfo : EventArgs
+{
+    public ActionBase action;
+    public GameObject actor;
+    public ActionKey actionKey;
+    public float channelProgress = 0f;
+    public ActionChannelInfo(ActionBase action, GameObject actor, ActionKey actionKey)
+    {
+        this.action = action;
+        this.actor = actor;
+        this.actionKey = actionKey;
+    }
+}
+
+public class ActionBreakInfo : EventArgs
+{
+    public ActionBase action;
+    public GameObject actor;
+    public ActionKey actionKey;
+    public EActionBreakType breakType;
+    public ActionBreakInfo(ActionBase action, GameObject actor, ActionKey actionKey)
     {
         this.action = action;
         this.actor = actor;
@@ -186,4 +304,3 @@ public enum EActionPreCheckResult
     SlienceCheckFail,
     OtherFail,
 }
-
