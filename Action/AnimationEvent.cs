@@ -15,6 +15,44 @@ public class AnimationEvent : MonoBehaviour
     public ActionBase skill02;
     public ActionBase skill03;
 
+    //几种方法
+    
+    //表现
+    //调用其他脚本的TrailStart
+    //调用其他脚本的TrailEnd
+    public void TrailStart()
+    {
+        TrailStartLeft();
+        TrailStartRight();
+    }
+
+    public void TrailEnd()
+    {
+
+    }
+
+    public void TrailStartLeft()
+    {
+
+    }
+
+    public void TrailEndLeft()
+    {
+
+    }
+
+    public void TrailStartRight()
+    {
+
+    }
+
+    public void TrailEndRight()
+    {
+
+    }
+
+
+    /*
     //造成伤害--------------------------------------------------------------------
     //A 球形判定造成伤害
     public void SphereDetect(int skillNum)
@@ -197,5 +235,6 @@ public class AnimationEvent : MonoBehaviour
 
         characterBehaviour.bInAction = false; //动作完成，可以进行别的操作了
     }
+    */
 
 }

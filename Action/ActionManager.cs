@@ -32,7 +32,7 @@ using UnityEngine;
  * 12EvtActionChannelCastUpdate
  * 13EvtActionChannelCastLanuch
  * 14EvtActionChannelCastEnd
- * 15EvtActionBreak
+ * 15EvtActionEnd
  */
 
 public class ActionManager{
@@ -179,12 +179,12 @@ public class ActionManager{
         return;
     }
 
-    //14 EvtActionBreak
+    //15 EvtActionEnd
     //----------------------------------------------------------------------------------------
-    public event EventHandler EvtActionBreak;
-    public void ActionBreak(ActionBase action, ActionBreakInfo info)
+    public event EventHandler EvtActionEnd;
+    public void ActionEnd(ActionBase action, ActionEndInfo info)
     {
-        EvtActionBreak(this, info);
+        EvtActionEnd(this, info);
         return;
     }
 
@@ -278,13 +278,13 @@ public class ActionChannelInfo : EventArgs
     }
 }
 
-public class ActionBreakInfo : EventArgs
+public class ActionEndInfo : EventArgs
 {
     public ActionBase action;
     public GameObject actor;
     public ActionKey actionKey;
-    public EActionBreakType breakType;
-    public ActionBreakInfo(ActionBase action, GameObject actor, ActionKey actionKey)
+    public EActionEndType endType;
+    public ActionEndInfo(ActionBase action, GameObject actor, ActionKey actionKey)
     {
         this.action = action;
         this.actor = actor;

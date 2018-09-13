@@ -30,14 +30,16 @@ public abstract class ActionBase : MonoBehaviour
     public string nBreakOtherLv;                    //可以打断级别（如果相等，则可以打断）   （类似的控制级别和防止控制级别，也可以这样制作）
     public string isCanCastInDisabled;              //是否可以在被控制情况下使用（拥有最高优先级，可以在一切被控制状态下使用）
     public float triggerRatio;                      //触发系数
+
     // 运行属性
     public bool isActive;                           //Action 是否被激活
+    public GameObject actor;                        //Action 的拥有者
     public ActionProgressType eProgress;            //Action 的状态阶段
     public ActionPreCheckInfo actionPreCheckInfo;   //ActionPreCheckInfo
     public ActionChargeInfo actionChargeInfo;       //ActionChargeInfo
     public ActionSingInfo actionSingInfo;           //ActionSingInfo
     public ActionCastInfo actionCastInfo;           //ActionCastInfo
-    public ActionBreakInfo actionBreakInfo;         //ActionBreakInfo
+    public ActionEndInfo actionEndInfo;             //actionEndInfo
     public bool isLockCD;                           //CD是否被锁定
     public float actionTimeStamp;                   //技能时间戳，用以和CD对比
     public float actionChargeStamp;                 //技能蓄力程度
@@ -76,6 +78,7 @@ public abstract class ActionBase : MonoBehaviour
         actionChargeInfo = new ActionChargeInfo(this, this.gameObject, this.actionKey);
         actionSingInfo = new ActionSingInfo(this, this.gameObject, this.actionKey);
         actionCastInfo = new ActionCastInfo(this, this.gameObject, this.actionKey);
+        actionEndInfo = new ActionEndInfo(this, this.gameObject, this.actionKey);
         isActive = true;
     }
 
@@ -95,13 +98,13 @@ public abstract class ActionBase : MonoBehaviour
             //如果在 蓄力Charge/吟唱Sing/释放Cast 阶段，需要持续向UI或其他发消息
             switch (eProgress)
             {
-                case ActionProgressType.Charge:
+                case ActionProgressType.CHARGE:
                     ActionManager.GetInstance.ActionChargeUpdate(actionChargeStamp);
                     break;
-                case ActionProgressType.Sing:
+                case ActionProgressType.SING:
                     ActionManager.GetInstance.ActionSingUpdate(actionSingStamp);
                     break;
-                case ActionProgressType.Channel:
+                case ActionProgressType.CHANNEL:
                     ActionManager.GetInstance.ActionChannelUpdate(actionChannelStamp);
                     break;
                 default:
@@ -195,7 +198,7 @@ public abstract class ActionBase : MonoBehaviour
     public void ActionChargeStart()
     {
         //设置action状态
-        eProgress = ActionProgressType.Charge;
+        eProgress = ActionProgressType.CHARGE;
         //开始播放动画
         ActionChargeStartImplement();
         //anim.SetTrigger() 等等实现
@@ -227,7 +230,7 @@ public abstract class ActionBase : MonoBehaviour
     public virtual void ActionSingStart()
     {
         //设置action状态
-        eProgress = ActionProgressType.Sing;
+        eProgress = ActionProgressType.SING;
         actionSingInfo.singProgress = 0f;
         ActionSingStartImplement();
         ActionManager.GetInstance.ActionChargeStart(this, actionSingInfo);
@@ -256,6 +259,7 @@ public abstract class ActionBase : MonoBehaviour
     protected virtual void ActionCastStartImplement() { }           //在这里写具体实现的代码逻辑
     public virtual void ActionCastStart()
     {
+        eProgress = ActionProgressType.CAST;
         ActionCastStartImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
     }
@@ -275,13 +279,14 @@ public abstract class ActionBase : MonoBehaviour
         ActionCastEndImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
         //Action 生命周期结束
-        //Action END via Cast ----------------------------------------------------------------------------------------------------------
+        ActionEnd(EActionEndType.NORMAL);
     }
 
     // 11 ActionChannelStart
     protected virtual void ActionChannelStartImplement() { }        //在这里写具体实现的代码逻辑
     public virtual void ActionChannelStart()
     {
+        eProgress = ActionProgressType.CHANNEL;
         ActionChannelStartImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
     }
@@ -306,18 +311,23 @@ public abstract class ActionBase : MonoBehaviour
     protected virtual void ActionChannelEndImplement() { }          //在这里写具体实现的代码逻辑
     public virtual void ActionChannelEnd()
     {
+        eProgress = ActionProgressType.DEFAULT;
         ActionChannelEndImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
         //Action 生命周期结束
-        //Action END via Cast ----------------------------------------------------------------------------------------------------------
+        ActionEnd(EActionEndType.NORMAL);
     }
 
-    // 15 ActionBreak
-    protected virtual void ActionBreakImplement() { }               //在这里写具体实现的代码逻辑
-    public virtual void ActionBreak()
+    // 15 ActionEnd
+    protected virtual void ActionEndImplement() { }               //在这里写具体实现的代码逻辑
+    public virtual void ActionEnd(EActionEndType endType)
     {
-        ActionManager.GetInstance.ActionBreak(this, actionBreakInfo);
+        ActionEndImplement();
+        actionEndInfo.endType = endType;
+        ActionManager.GetInstance.ActionEnd(this, actionEndInfo);
     }
+
+
 
     bool ActionPreCheckEnergy()                //检查能量消耗
     {
@@ -410,13 +420,13 @@ public enum ActionCastType
  * */
 public enum ActionEffectType
 {
-    Custom,
-    Self,
-    SelfAOE,
-    Dummy,
-    RayDirection,
-    RayTarget,
-    RayTargetAoe,
+    CUSTOM,
+    SELF,
+    SELF_AOE,
+    DUMMY,
+    RAY_DIRECTION,
+    RAY_TARGET,
+    RAY_TARGET_AOE,
 }
 
 /*
@@ -429,20 +439,25 @@ public enum ActionEffectType
 public enum ActionProgressType
 {
     DEFAULT,
-    Charge,
-    Sing,
-    Cast,
-    Channel,
+    CHARGE,
+    SING,
+    CAST,
+    CHANNEL,
 }
 
 /*
- * --------------------------打断原因类型--------------------------
- * 0 未在任何状态     （表示此技能没在释放）
- * 1 蓄力中
- * 2 吟唱中
- * 3 释放中
+ * --------------------------技能结束原因类型--------------------------
+ * 0 正常结束     （表示此技能没在释放）
+ * 1 在CAST过程中被打断
+ * 2 在CHARGE过程中被打断
+ * 3 在SING过程中被打断
+ * 4 在CHANNEL过程中被打断
  * */
-public enum EActionBreakType
+public enum EActionEndType
 {
-
+    NORMAL,
+    BREAK_IN_CAST,
+    BREAK_IN_CHARGE,
+    BREAK_IN_SING,
+    BREAK_IN_CHANNEL,
 }

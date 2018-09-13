@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +30,8 @@ public class CharacterAction : MonoBehaviour
     public CharacterBehaviour characterBehaviour;
     //获取 Animator组件
     public Animator anim;
+    //获取 Action释放者
+    public GameObject actor;
 
     //字典储存所有 ActionKey - ActionBase 键值对
     public Dictionary<ActionKey, ActionBase> actionDic = new Dictionary<ActionKey, ActionBase>();
@@ -67,6 +70,15 @@ public class CharacterAction : MonoBehaviour
     void Awake()
     {
         GetInstance = this;
+        if (characterBehaviour)
+        {
+            actor = characterBehaviour.gameObject;
+        }
+        else
+        {
+            throw new Exception("NOT GET ACTION ACTOR");
+        }
+
         //初始化字典
         actionDic.Add(ActionKey.Action_LMB, action_LMB);
         actionDic.Add(ActionKey.Action_RMB, action_RMB);
@@ -134,8 +146,9 @@ public class CharacterAction : MonoBehaviour
         ActionBase action;
         if (!actionDic.TryGetValue(actionKey, out action)) return;
         //判断是否能使用技能
-        action.ActionPreCheck(actionKey);
+        ActionPreCheckInfo info = new ActionPreCheckInfo(action, actor, actionKey);
+        action.ActionPreCheck(action, info);
     }
 
-    //TODO  03 更改动画权重（）
+    //TODO 03 更改动画权重（）
 }

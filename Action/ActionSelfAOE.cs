@@ -17,10 +17,11 @@ public class ActionSelfAOE : ActionBase
 {
     public float range;
     public float angle;
+    public int targetLayerMask;
 
     protected void SphereDetect()
     {
-        Physics.OverlapSphere(this.transform.position, this.range);
+        Physics.OverlapSphere(actor.transform.position, range, targetLayerMask);
     }
 
     protected void ClearDetectGroup()
