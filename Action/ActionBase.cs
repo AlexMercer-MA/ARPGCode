@@ -118,6 +118,7 @@ public abstract class ActionBase : MonoBehaviour
 
     // --------------------------------- Action 生命周期方法 ---------------------------------
     // 1  ActionPreCheck
+    protected virtual void ActionPreCheckImplement() { }         //在这里写具体实现的代码逻辑
     public virtual void ActionPreCheck(ActionBase action, ActionPreCheckInfo info)
     {
         //通过全部检查 则可以释放技能
@@ -169,127 +170,154 @@ public abstract class ActionBase : MonoBehaviour
 
         info.result = EActionPreCheckResult.Success;
         ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+
+        //PreCheck结束，进行下一步骤
         if (castType == ActionCastType.CHARGE)
         {
             ActionChargeStart();
         }
-        else
+        else if(castType == ActionCastType.CHANNEL)
         {
-            ActionChargeStart();
+            ActionChannelStart();
         }
+        else if (castType == ActionCastType.CAST)
+        {
+            ActionCastStart();
+        }
+
+        //异常
+        eProgress = ActionProgressType.DEFAULT;
         return;
     }
 
     // 2 ActionChargeStart
-    public virtual void ActionChargeStart()
+    protected virtual void ActionChargeStartImplement() { }         //在这里写具体实现的代码逻辑
+    public void ActionChargeStart()
     {
         //设置action状态
         eProgress = ActionProgressType.Charge;
         //开始播放动画
-        //TODO
-        //anim.SetTrigger()
+        ActionChargeStartImplement();
+        //anim.SetTrigger() 等等实现
         actionChargeInfo.chargeProgress = 0f;
         ActionManager.GetInstance.ActionChargeStart(this, actionChargeInfo);
     }
 
     // 3 ActionChargeUpdate
+    protected virtual void ActionChargeUpdateImplement() { }        //在这里写具体实现的代码逻辑
     public virtual void ActionChargeUpdate(float process)
     {
         actionChargeInfo.chargeProgress = process;
+        ActionChargeUpdateImplement();
         ActionManager.GetInstance.ActionChargeUpdate(this, actionChargeInfo);
     }
 
     // 4 ActionChargeEnd
+    protected virtual void ActionChargeEndImplement() { }           //在这里写具体实现的代码逻辑
     public virtual void ActionChargeEnd()
     {
+        ActionChargeEndImplement();
         ActionManager.GetInstance.ActionChargeUpdate(this, actionChargeInfo);
+        //Charge结束，进行下一步骤
+        ActionCastStart();
     }
 
     // 5 ActionSingStart
+    protected virtual void ActionSingStartImplement() { }           //在这里写具体实现的代码逻辑
     public virtual void ActionSingStart()
     {
         //设置action状态
         eProgress = ActionProgressType.Sing;
-        //开始播放动画
-        //TODO
-        //anim.SetTrigger()
         actionSingInfo.singProgress = 0f;
+        ActionSingStartImplement();
         ActionManager.GetInstance.ActionChargeStart(this, actionSingInfo);
     }
 
     // 6 ActionSingUpdate
+    protected virtual void ActionSingUpdateImplement() { }          //在这里写具体实现的代码逻辑
     public virtual void ActionSingUpdate(float process)
     {
         actionSingInfo.singProgress = process;
+        ActionSingUpdateImplement();
         ActionManager.GetInstance.ActionChargeUpdate(this, actionSingInfo);
     }
 
     // 7 ActionSingEnd
+    protected virtual void ActionSingEndImplement() { }             //在这里写具体实现的代码逻辑
     public virtual void ActionSingEnd()
     {
         ActionManager.GetInstance.ActionChargeUpdate(this, actionSingInfo);
+        ActionSingEndImplement();
+        //Charge结束，进行下一步骤
+        ActionCastStart();
     }
 
     // 8 ActionCastStart
+    protected virtual void ActionCastStartImplement() { }           //在这里写具体实现的代码逻辑
     public virtual void ActionCastStart()
     {
+        ActionCastStartImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 9 ActionCastLaunch (可能由脚本触发，也可以由Animator触发)
+    protected virtual void ActionCastLaunchImplement() { }          //在这里写具体实现的代码逻辑
     public virtual void ActionCastLaunch()
     {
+        ActionCastLaunchImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 10 ActionCastEnd
+    protected virtual void ActionCastEndImplement() { }             //在这里写具体实现的代码逻辑
     public virtual void ActionCastEnd()
     {
+        ActionCastEndImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+        //Action 生命周期结束
+        //Action END via Cast ----------------------------------------------------------------------------------------------------------
     }
 
     // 11 ActionChannelStart
+    protected virtual void ActionChannelStartImplement() { }        //在这里写具体实现的代码逻辑
     public virtual void ActionChannelStart()
     {
+        ActionChannelStartImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 12 ActionChannelLaunch (可能由脚本触发，也可以由Animator触发)
+    protected virtual void ActionChannelLaunchImplement() { }       //在这里写具体实现的代码逻辑
     public virtual void ActionChannelLaunch()
     {
+        ActionChannelLaunchImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 13 ActionChannelUpdate
+    protected virtual void ActionChannelUpdateImplement() { }       //在这里写具体实现的代码逻辑
     public virtual void ActionChannelUpdate()
     {
+        ActionChannelUpdateImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 14 ActionChannelEnd
+    protected virtual void ActionChannelEndImplement() { }          //在这里写具体实现的代码逻辑
     public virtual void ActionChannelEnd()
     {
+        ActionChannelEndImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+        //Action 生命周期结束
+        //Action END via Cast ----------------------------------------------------------------------------------------------------------
     }
-    
+
     // 15 ActionBreak
+    protected virtual void ActionBreakImplement() { }               //在这里写具体实现的代码逻辑
     public virtual void ActionBreak()
     {
         ActionManager.GetInstance.ActionBreak(this, actionBreakInfo);
     }
-
-
-
-
-
-
-    //public virtual void SphereDetect();            // 进行一次球体检测
-    //public virtual void ClearTargetGroup();        // 清空检测检测组（这样仅仅保存一个碰撞信息）
-
-
-
-   
-
 
     bool ActionPreCheckEnergy()                //检查能量消耗
     {
@@ -363,11 +391,11 @@ public abstract class ActionBase : MonoBehaviour
  * */
 public enum ActionCastType
 {
-    NORMAL,
+    CAST,
     SING,
     CHARGE,
     CHANNEL,
-    Independent,
+    INDEPENDENT,
 }
 
 /*
@@ -400,7 +428,7 @@ public enum ActionEffectType
  * */
 public enum ActionProgressType
 {
-    Default,
+    DEFAULT,
     Charge,
     Sing,
     Cast,
