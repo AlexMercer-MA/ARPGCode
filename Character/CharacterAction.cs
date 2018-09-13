@@ -93,27 +93,7 @@ public class CharacterAction : MonoBehaviour
         actionDic.Add(ActionKey.Action_4, action_4);
         actionDic.Add(ActionKey.Action_Tab, action_Tab);
     }
-
-    /*void Update()
-    {
-        //取消攻击层动画权重
-        attackLayerWeight1 -= Time.deltaTime * 1f;  //layer1 Attack
-        attackLayerWeight2 -= Time.deltaTime * 1f;  //layer2 Skill
-        attackLayerWeight3 -= Time.deltaTime * 1f;  //layer3 Hit
-
-        if (attackLayerWeight1 <= 0f)
-            attackLayerWeight1 = 0.001f;
-        if (attackLayerWeight2 <= 0f)
-            attackLayerWeight2 = 0.001f;
-        if (attackLayerWeight3 <= 0f)
-            attackLayerWeight3 = 0.001f;
-
-        //设置权重在0到1范围内
-        anim.SetLayerWeight(1, Mathf.Clamp01(attackLayerWeight1));
-        anim.SetLayerWeight(2, Mathf.Clamp01(attackLayerWeight2));
-        anim.SetLayerWeight(3, Mathf.Clamp01(attackLayerWeight3));
-    }*/
-
+    
     //1 更新技能CD和 eProgress
     public void UpdateAction()
     {
@@ -150,5 +130,24 @@ public class CharacterAction : MonoBehaviour
         action.ActionPreCheck(action, info);
     }
 
-    //TODO 03 更改动画权重（）
+    //TODO 03 更改动画权重层级（）
+    /*void Update()
+    {
+        //取消攻击层动画权重
+        attackLayerWeight1 -= Time.deltaTime * 1f;  //layer1 Attack
+        attackLayerWeight2 -= Time.deltaTime * 1f;  //layer2 Skill
+        attackLayerWeight3 -= Time.deltaTime * 1f;  //layer3 Hit
+
+        if (attackLayerWeight1 <= 0f)
+            attackLayerWeight1 = 0.001f;
+        if (attackLayerWeight2 <= 0f)
+            attackLayerWeight2 = 0.001f;
+        if (attackLayerWeight3 <= 0f)
+            attackLayerWeight3 = 0.001f;
+
+        //设置权重在0到1范围内
+        anim.SetLayerWeight(1, Mathf.Clamp01(attackLayerWeight1));
+        anim.SetLayerWeight(2, Mathf.Clamp01(attackLayerWeight2));
+        anim.SetLayerWeight(3, Mathf.Clamp01(attackLayerWeight3));
+    }*/
 }
