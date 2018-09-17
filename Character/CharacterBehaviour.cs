@@ -34,7 +34,7 @@ public class CharacterBehaviour : MonoBehaviour
     //摄像机
     public GameObject cam;
     //获得CharacterController
-    public CharacterController cc;
+    public CharacterController characterController;
     //动画控制器
     public Animator anim;
     //移动速度 现在移到 GameBaseProperties 中
@@ -156,7 +156,7 @@ public class CharacterBehaviour : MonoBehaviour
     {
         instance = this;
         cam = Camera.main.gameObject;
-        cc = gameObject.GetComponent<CharacterController>();
+        characterController = gameObject.GetComponent<CharacterController>();
     }
     
     //  Update  主循环
@@ -289,7 +289,7 @@ public class CharacterBehaviour : MonoBehaviour
         else if (Input.GetMouseButton(1))
             actionKey = ActionKey.Action_RMB;
         else if (Input.GetMouseButton(0))
-            actionKey = ActionKey.Action_RMB;
+            actionKey = ActionKey.Action_LMB;
         else
             actionKey = ActionKey.None;
     }
@@ -360,7 +360,7 @@ public class CharacterBehaviour : MonoBehaviour
         if (forward || backward || left || right)
         {
             playerAngle = Mathf.LerpAngle(playerAngle, targetAngle, rotateLerp * Time.deltaTime);
-            cc.transform.rotation = Quaternion.Euler(new Vector3(0f, playerAngle, 0f));
+            characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, playerAngle, 0f));
         }
     }
 
@@ -368,7 +368,7 @@ public class CharacterBehaviour : MonoBehaviour
     {
         //物理下落速度 gSpeed
         //垂直方向速度,无论什么状态 都应该受到重力影响
-        if (cc.isGrounded)
+        if (characterController.isGrounded)
         {
             Debug.Log("Gravity_Ground");
             if (bLockGravity)
@@ -458,7 +458,7 @@ public class CharacterBehaviour : MonoBehaviour
         anim.SetFloat("fSpeed", flatMove.magnitude);
         //总速度向量
         finalMove = (flatMove + new Vector3(0f, gSpeed, 0f));
-        cc.Move(finalMove * Time.deltaTime);
+        characterController.Move(finalMove * Time.deltaTime);
     }
 
     //锁定 向角色前方移动
@@ -476,7 +476,7 @@ public class CharacterBehaviour : MonoBehaviour
         anim.SetFloat("fSpeed", flatMove.magnitude);
         //总速度向量
         finalMove = (flatMove + new Vector3(0f, gSpeed, 0f));
-        cc.Move(finalMove * Time.deltaTime);
+        characterController.Move(finalMove * Time.deltaTime);
     }
     
     //立刻转向某一方向 TurnImmediate（最高优先级，不受LockRotate影响，如果需要可以先做判断是否已经LockRotate）
@@ -485,10 +485,10 @@ public class CharacterBehaviour : MonoBehaviour
         switch (dir)
         {
             case Direction.Forward:
-                cc.transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.rotation.eulerAngles.y, 0f));
+                characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.rotation.eulerAngles.y, 0f));
                 break;
             case Direction.Backward:
-                cc.transform.rotation = Quaternion.Euler(new Vector3(0f, -cam.transform.rotation.eulerAngles.y, 0f));
+                characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, -cam.transform.rotation.eulerAngles.y, 0f));
                 break;
             default:
                 break;
@@ -498,13 +498,13 @@ public class CharacterBehaviour : MonoBehaviour
     //旋转转向镜头前方
     public void TurnToCameraForward()
     {
-        cc.transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.rotation.eulerAngles.y, 0f));
+        characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.rotation.eulerAngles.y, 0f));
     }
 
     //旋转转向镜头前方
     public void TurnToCameraBackward()
     {
-        cc.transform.rotation = Quaternion.Euler(new Vector3(0f, -cam.transform.rotation.eulerAngles.y, 0f));
+        characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, -cam.transform.rotation.eulerAngles.y, 0f));
     }
 
     //玩家无法控制时的人物行为
@@ -513,14 +513,14 @@ public class CharacterBehaviour : MonoBehaviour
         Gravity();
         anim.SetFloat("fSpeed", 0f);
         finalMove = new Vector3(0f, gSpeed, 0f);
-        cc.Move(finalMove * Time.deltaTime);
+        characterController.Move(finalMove * Time.deltaTime);
     }
 
     //玩家死亡后的人物行为
     void CannotControlDie()
     {
         //垂直方向速度,无论什么状态 都应该受到重力影响
-        if (cc.isGrounded)
+        if (characterController.isGrounded)
         {
             gSpeed = -gravity;
         }
@@ -529,7 +529,7 @@ public class CharacterBehaviour : MonoBehaviour
             gSpeed -= gravity * Time.deltaTime;
         }
         finalMove = new Vector3(0f, gSpeed, 0f);
-        cc.Move(finalMove * Time.deltaTime);
+        characterController.Move(finalMove * Time.deltaTime);
     }
 
     public void Die()

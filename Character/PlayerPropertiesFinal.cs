@@ -592,11 +592,11 @@ public class PlayerPropertiesFinal : MonoBehaviour
         {
             return false;
         }
-        if (characterAttack.isEvade)
-        {
-            textManager.Add("Evade", this.characterBehaviour.hitPoint.transform, "evade");
-            return false;
-        }
+        //if (characterAttack.isEvade)
+        //{
+        //    textManager.Add("Evade", this.characterBehaviour.hitPoint.transform, "evade");
+        //    return false;
+        //}
         if (CheckEvade())
         {
             textManager.Add("Evade", this.characterBehaviour.hitPoint.transform, "evade");

@@ -7,16 +7,9 @@ public class AnimationEvent : MonoBehaviour
     public Animator anim;
     public CharacterBehaviour characterBehaviour;
     public CharacterAction characterAttack;
-    public ActionBase actionPotion;
-    public ActionBase basicAttack;
-    public ActionBase specialAttack;
-    public ActionBase skillEvade;
-    public ActionBase skill01;
-    public ActionBase skill02;
-    public ActionBase skill03;
 
-    //几种方法
-    
+    //--------------------------------------------方法--------------------------------------------
+
     //表现
     //调用其他脚本的TrailStart
     //调用其他脚本的TrailEnd
@@ -28,30 +21,87 @@ public class AnimationEvent : MonoBehaviour
 
     public void TrailEnd()
     {
-
+        TrailEndLeft();
+        TrailEndRight();
     }
 
     public void TrailStartLeft()
     {
-
-    }
-
-    public void TrailEndLeft()
-    {
-
+        //开启武器拖尾渲染器
+        characterAttack.trailRendererLeft.enabled = true;
     }
 
     public void TrailStartRight()
     {
+        //关闭武器拖尾渲染器
+        characterAttack.trailRendererRight.enabled = true;
+    }
 
+    public void TrailEndLeft()
+    {
+        //开启武器拖尾渲染器
+        characterAttack.trailRendererLeft.enabled = false;
     }
 
     public void TrailEndRight()
     {
+        //关闭武器拖尾渲染器
+        characterAttack.trailRendererRight.enabled = false;
+    }
+    
+    //Anim 回调方法
+    public void ActionCastLaunch(int id)
+    {
+        ActionBase action = CharacterAction.GetInstance.TryGetActionByID(id);
+        if (action == null)
+            return;
+        action.ActionCastLaunch();
+    }
+
+    public void ActionCastEnd(int id)
+    {
+        ActionBase action = CharacterAction.GetInstance.TryGetActionByID(id);
+        if (action == null)
+            return;
+        action.ActionCastEnd();
+        //可以在这之后，就结束player的硬直状态
+    }
+
+    public void ActionChannelLaunch(int id)
+    {
+        ActionBase action = CharacterAction.GetInstance.TryGetActionByID(id);
+        if (action == null)
+            return;
+        action.ActionChannelLaunch();
+    }
+
+    public void ActionChannelEnd(int id)
+    {
+        ActionBase action = CharacterAction.GetInstance.TryGetActionByID(id);
+        if (action == null)
+            return;
+        action.ActionChannelEnd();
+        //可以在这之后，就结束player的硬直状态
+    }
+
+    public void ActionEnd(int id)
+    {
+        ActionBase action = CharacterAction.GetInstance.TryGetActionByID(id);
+        if (action == null)
+            return;
+        action.ActionEnd(EActionEndType.NORMAL);
+    }
+
+    public void ChangeFlatMoveSpeedLerp(float speed)
+    {
 
     }
 
+    public void ChangeFlatMoveSpeedForce(float speed)
+    {
 
+    }
+    
     /*
     //造成伤害--------------------------------------------------------------------
     //A 球形判定造成伤害

@@ -35,7 +35,7 @@ using UnityEngine;
  * 15EvtActionEnd
  */
 
-public class ActionManager{
+public class ActionManager : MonoBehaviour{
 
     public static ActionManager GetInstance { get { return instance; } }
     private static ActionManager instance;
@@ -121,7 +121,8 @@ public class ActionManager{
     public event EventHandler EvtActionCastStart;
     public void ActionCastStart(ActionBase action, ActionCastInfo info)
     {
-        EvtActionCastStart(this, info);
+        if (EvtActionCastStart != null)
+            EvtActionCastStart(this, info);
         return;
     }
 
@@ -190,22 +191,22 @@ public class ActionManager{
 
     public void ActionCooldownUpdate()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void ActionChargeUpdate(float actionChargeStamp)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void ActionSingUpdate(float actionSingStamp)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void ActionChannelUpdate(float actionChannelStamp)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 }
 

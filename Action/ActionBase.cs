@@ -91,7 +91,8 @@ public abstract class ActionBase : MonoBehaviour
         {
             //如果在 冷却阶段，需要持续向UI或其他发消息
             actionTimeStamp += deltaTime;
-            ActionManager.GetInstance.ActionCooldownUpdate();   //TODO
+            ActionManager.GetInstance.
+                ActionCooldownUpdate();   //TODO
         }
         else
         {
@@ -278,8 +279,6 @@ public abstract class ActionBase : MonoBehaviour
     {
         ActionCastEndImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
-        //Action 生命周期结束
-        ActionEnd(EActionEndType.NORMAL);
     }
 
     // 11 ActionChannelStart
@@ -314,8 +313,6 @@ public abstract class ActionBase : MonoBehaviour
         eProgress = ActionProgressType.DEFAULT;
         ActionChannelEndImplement();
         ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
-        //Action 生命周期结束
-        ActionEnd(EActionEndType.NORMAL);
     }
 
     // 15 ActionEnd

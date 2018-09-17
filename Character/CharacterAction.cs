@@ -36,18 +36,18 @@ public class CharacterAction : MonoBehaviour
     //字典储存所有 ActionKey - ActionBase 键值对
     public Dictionary<ActionKey, ActionBase> actionDic = new Dictionary<ActionKey, ActionBase>();
     //攻击和技能基类 ActionBase
-    ActionBase action_LMB;
-    ActionBase action_RMB;
-    ActionBase action_Shift;
-    ActionBase action_Ctrl;
-    ActionBase action_Q;
-    ActionBase action_E;
-    ActionBase action_R;
-    ActionBase action_1;
-    ActionBase action_2;
-    ActionBase action_3;
-    ActionBase action_4;
-    ActionBase action_Tab;
+    public ActionBase action_LMB;
+    public ActionBase action_RMB;
+    public ActionBase action_Shift;
+    public ActionBase action_Ctrl;
+    public ActionBase action_Q;
+    public ActionBase action_E;
+    public ActionBase action_R;
+    public ActionBase action_1;
+    public ActionBase action_2;
+    public ActionBase action_3;
+    public ActionBase action_4;
+    public ActionBase action_Tab;
 
     //动画控制器
 
@@ -70,6 +70,7 @@ public class CharacterAction : MonoBehaviour
     void Awake()
     {
         GetInstance = this;
+
         if (characterBehaviour)
         {
             actor = characterBehaviour.gameObject;
@@ -102,6 +103,8 @@ public class CharacterAction : MonoBehaviour
         //更新技能CD
         foreach (ActionBase action in actionDic.Values)
         {
+            //没有设置技能就跳过
+            if (action == null) continue;
             //更新所有已经激活的技能的CD （只有学习过的 ActionKey 位置的 Action 才被激活）
             if (!action.isActive) continue;
             //(内部处理) Action 没有被锁定CD，就更新CD
@@ -150,4 +153,19 @@ public class CharacterAction : MonoBehaviour
         anim.SetLayerWeight(2, Mathf.Clamp01(attackLayerWeight2));
         anim.SetLayerWeight(3, Mathf.Clamp01(attackLayerWeight3));
     }*/
+
+
+    //其他方法 ----------------------------------------------------------------------
+    //取ActionKey的ID
+    public ActionBase TryGetActionByID(int id)
+    {
+        foreach (KeyValuePair<ActionKey,ActionBase> item in actionDic)
+        {
+            if (item.Value.ID == id)
+            {
+                return item.Value;
+            }
+        }
+        return null;
+    }
 }

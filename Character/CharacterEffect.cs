@@ -38,15 +38,15 @@ public class CharacterEffect : MonoBehaviour {
         EffectGroup tEffectGroupTable = new EffectGroup(ID);
 
         //如果Dic中没有，就新建EffectGroup
-        if (tEffectGroupTable.ContainsKey(ID))
-        {
-            tEffectGroupTable.Add(ID, 1);
-        }
+        //if (tEffectGroupTable.ContainsKey(ID))
+        //{
+        //    tEffectGroupTable.Add(ID, 1);
+        //}
         //如果Dic中有，就直接操作
-        else
-        {
-            tEffectGroupTable.Add();
-        }
+        //else
+        //{
+        //    tEffectGroupTable.Add();
+        //}
         return true;
     }
 
