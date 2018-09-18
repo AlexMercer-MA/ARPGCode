@@ -21,15 +21,15 @@ public class SceneStartSetting : MonoBehaviour
 
         //复活玩家,设置为满状态
         //UI_Rebirth.GetInstance.Hide();
-        PlayerPropertiesFinal.GetInstance.IsDead = false;
-        PlayerPropertiesFinal.GetInstance.FullHP();
-        PlayerPropertiesFinal.GetInstance.FullSP();
+        ActorPropertiesFinal.GetInstance.IsDead = false;
+        ActorPropertiesFinal.GetInstance.FullHP();
+        ActorPropertiesFinal.GetInstance.FullSP();
         CharacterBehaviour.GetInstace.anim.SetTrigger("Birth");
         
         Cursor.visible = false;//隐藏光标
         SceneNameUI.GetInstance.ShowSceneName(sceneName);
         CharacterBehaviour.GetInstace.groundCheck.triggerNums = 0;//重置地面检测器
-        PlayerPropertiesFinal.GetInstance.textManager = GameObject.FindWithTag("DamageUI").GetComponent<UltimateTextDamageManager>();
+        ActorPropertiesFinal.GetInstance.textManager = GameObject.FindWithTag("DamageUI").GetComponent<UltimateTextDamageManager>();
 
         //关闭所有UI
         PanelUIManager.GetInstance.CloseAllPanel();

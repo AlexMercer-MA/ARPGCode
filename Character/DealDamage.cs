@@ -25,7 +25,7 @@
 //			if (other.CompareTag("Enemy")&&beenHit.Contains(other.transform.gameObject)==false)
 //			{
 //				beenHit.Add(other.transform.gameObject);
-//				other.transform.GetComponent<EnemyProperties>().TakePhysicalDamage (Mathf.RoundToInt(damage),PlayerPropertiesFinal.GetInstace.ArmorPeneNumberFinal,PlayerPropertiesFinal.GetInstace.ArmorPenePercentFinal);
+//				other.transform.GetComponent<EnemyProperties>().TakePhysicalDamage (Mathf.RoundToInt(damage),ActorPropertiesFinal.GetInstace.ArmorPeneNumberFinal,ActorPropertiesFinal.GetInstace.ArmorPenePercentFinal);
 //				//Debug.Log ("attack");
 //			}
 //		}

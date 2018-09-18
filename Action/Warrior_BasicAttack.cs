@@ -27,7 +27,7 @@ public class Warrior_BasicAttack : ActionBase
     //    bInAction = true;
     //    skillTime = 0f;
     //    //扣除消耗
-    //    PlayerPropertiesFinal.GetInstance.Sp -= energy * (1f - PlayerPropertiesFinal.GetInstance.Cdr);
+    //    ActorPropertiesFinal.GetInstance.Sp -= energy * (1f - ActorPropertiesFinal.GetInstance.Cdr);
     //    //动画相关
     //    if (anim.GetBool("AttackHand") == false)
     //    {
@@ -46,8 +46,8 @@ public class Warrior_BasicAttack : ActionBase
 
     //    //设置玩家锁定相关设置
     //    characterBehaviour.bInAction = true;//强制玩家面向前方	
-    //    characterBehaviour.TurnToCameraForward();
-    //    characterBehaviour.eLockRotationDir = Direction.Forward; //锁定角色始终面向摄像机前方
+    //    characterBehaviour.TurnToForward();
+    //    characterBehaviour.eLockRotationDir = LockDirection.Forward; //锁定角色始终面向摄像机前方
     //    characterBehaviour.lockMoveSpeedModifier = 0f;
 
     //}
@@ -61,7 +61,7 @@ public class Warrior_BasicAttack : ActionBase
     //    PlayerAudio.GetInstance.Whoosh();
 
     //    //设置攻击力
-    //    damage = Random.Range(PlayerPropertiesFinal.GetInstance.PhyMeleeMin, PlayerPropertiesFinal.GetInstance.PhyMeleeMax);
+    //    damage = Random.Range(ActorPropertiesFinal.GetInstance.PhyMeleeMin, ActorPropertiesFinal.GetInstance.PhyMeleeMax);
         
     //    //获得攻击目标
     //    Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, this.range);
@@ -80,7 +80,7 @@ public class Warrior_BasicAttack : ActionBase
     //                //造成伤害
     //                if (tempEnemyStatus != null)
     //                {
-    //                    tempEnemyStatus.TakePhysicalRangeDamage(Mathf.RoundToInt(damage), PlayerPropertiesFinal.GetInstance.AmrPeneFix, PlayerPropertiesFinal.GetInstance.AmrPenePer);
+    //                    tempEnemyStatus.TakePhysicalRangeDamage(Mathf.RoundToInt(damage), ActorPropertiesFinal.GetInstance.AmrPeneFix, ActorPropertiesFinal.GetInstance.AmrPenePer);
     //                }
     //            }
     //        }
@@ -89,7 +89,7 @@ public class Warrior_BasicAttack : ActionBase
     //    if (hitEnemy > 0)
     //    {
     //        //击中敌人就回复能量
-    //        PlayerPropertiesFinal.GetInstance.Sp += generateSp;
+    //        ActorPropertiesFinal.GetInstance.Sp += generateSp;
 
     //        //音效
     //        PlayerAudio.GetInstance.Hit();

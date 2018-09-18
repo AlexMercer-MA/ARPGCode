@@ -14,7 +14,7 @@ public class UI_Level : MonoBehaviour
 
     void Update()
     {
-        text.text = "Level " + PlayerPropertiesBase.GetInstance.Level;
+        text.text = "Level " + ActorPropertiesBase.GetInstance.Level;
     }
 }
 

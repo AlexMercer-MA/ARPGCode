@@ -14,6 +14,6 @@ public class UI_HPValue : MonoBehaviour
 
     void Update()
     {
-        text.text = PlayerPropertiesFinal.GetInstance.Hp_Int + "/" + PlayerPropertiesFinal.GetInstance.HpMax;
+        text.text = ActorPropertiesFinal.GetInstance.Hp_Int + "/" + ActorPropertiesFinal.GetInstance.HpMax;
     }
 }

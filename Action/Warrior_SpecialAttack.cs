@@ -42,7 +42,7 @@ namespace MXX
 		//		skillTime += Time.deltaTime;
 		//	}
 
-		//	if (PlayerPropertiesFinal.GetInstance.IsDead)
+		//	if (ActorPropertiesFinal.GetInstance.IsDead)
 		//	{
 		//		isPrepare = false;
 		//		isDamage = false;
@@ -62,7 +62,7 @@ namespace MXX
 				
 		//		fillAmount += 1f * Time.deltaTime;
 				
-		//		if (Input.GetMouseButtonUp(1)&&CharacterBehaviour.GetInstace.bCanControl&&!PlayerPropertiesFinal.GetInstance.IsDead)
+		//		if (Input.GetMouseButtonUp(1)&&CharacterBehaviour.GetInstace.bCanControl&&!ActorPropertiesFinal.GetInstance.IsDead)
 		//		{
 		//			isPrepare = false;
 		//			isDamage = true;
@@ -89,11 +89,11 @@ namespace MXX
 		//	bInAction = true;
 		//	skillTime = 0f;	
 		//	//扣除消耗
-		//	PlayerPropertiesFinal.GetInstance.Sp -= energy * (1f-PlayerPropertiesFinal.GetInstance.Csr);
+		//	ActorPropertiesFinal.GetInstance.Sp -= energy * (1f-ActorPropertiesFinal.GetInstance.Csr);
 		//	//初始化攻击力和速度
-		//	damage = PlayerPropertiesFinal.GetInstance.PhyMelee*1f;
-		//	damageDelta = PlayerPropertiesFinal.GetInstance.PhyMelee * 2f;
-		//	damageMax =  PlayerPropertiesFinal.GetInstance.PhyMelee * 3f;
+		//	damage = ActorPropertiesFinal.GetInstance.PhyMelee*1f;
+		//	damageDelta = ActorPropertiesFinal.GetInstance.PhyMelee * 2f;
+		//	damageMax =  ActorPropertiesFinal.GetInstance.PhyMelee * 3f;
 		//	bInActionSpeed = 0.5f;
 
 		//	//先选择哪一种技能动画在setTrigger
@@ -107,8 +107,8 @@ namespace MXX
 		//	isPrepare = true;
 
 		//	characterBehaviour.bInAction = true;
-		//	characterBehaviour.TurnToCameraForward(); //强制面向摄像机前方
-		//	characterBehaviour.eLockRotationDir = Direction.Forward; //锁定角色始终面向摄像机前方
+		//	characterBehaviour.TurnToForward(); //强制面向摄像机前方
+		//	characterBehaviour.eLockRotationDir = LockDirection.Forward; //锁定角色始终面向摄像机前方
 		//	characterBehaviour.bCanJump = true;       //锁定角色跳跃
 		//	characterBehaviour.lockMoveSpeedModifier = 0f; //0倍速度移动
 		//}
@@ -124,7 +124,7 @@ namespace MXX
 		//		if (hitColliders[i].CompareTag("Enemy")&&!targetGroup.Contains(hitColliders[i].gameObject))
 		//		{
 		//			EnemyProperties tempEnemyStatus = hitColliders [i].GetComponent<EnemyProperties> ();
-		//			tempEnemyStatus.TakePhysicalRangeDamage (Mathf.RoundToInt(damage),PlayerPropertiesFinal.GetInstance.AmrPeneFix,PlayerPropertiesFinal.GetInstance.AmrPenePer);
+		//			tempEnemyStatus.TakePhysicalRangeDamage (Mathf.RoundToInt(damage),ActorPropertiesFinal.GetInstance.AmrPeneFix,ActorPropertiesFinal.GetInstance.AmrPenePer);
 		//			targetGroup.Add (hitColliders[i].gameObject);
 		//			Debug.Log (hitColliders[i].transform.name);
 

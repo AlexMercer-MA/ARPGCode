@@ -27,10 +27,10 @@ public class ActionPotion : ActionBase
     //    bInAction = true;
     //    skillTime = 0f;
     //    //扣除消耗
-    //    PlayerPropertiesFinal.GetInstance.Sp -= energy;
+    //    ActorPropertiesFinal.GetInstance.Sp -= energy;
     //    //回复生命和能量
-    //    PlayerPropertiesFinal.GetInstance.Hp += 0.5f * PlayerPropertiesFinal.GetInstance.HpMax;
-    //    PlayerPropertiesFinal.GetInstance.Sp += 0.5f * PlayerPropertiesFinal.GetInstance.SpMax;
+    //    ActorPropertiesFinal.GetInstance.Hp += 0.5f * ActorPropertiesFinal.GetInstance.HpMax;
+    //    ActorPropertiesFinal.GetInstance.Sp += 0.5f * ActorPropertiesFinal.GetInstance.SpMax;
 
     //    Instantiate(recoverEffect, CharacterBehaviour.GetInstace.hitPoint.transform);
 

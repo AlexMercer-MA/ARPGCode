@@ -38,7 +38,7 @@ public class UI_ActionIcon : MonoBehaviour
     //        skillUI_HighLight.enabled = false;
     //    }
 
-    //    if (PlayerPropertiesFinal.GetInstance.Sp < skillEnergy)
+    //    if (ActorPropertiesFinal.GetInstance.Sp < skillEnergy)
     //    {
     //        skillUI_NoEnergy.enabled = true;
     //    }
@@ -47,7 +47,7 @@ public class UI_ActionIcon : MonoBehaviour
     //        skillUI_NoEnergy.enabled = false;
     //    }
 
-    //    skillCD = actionBase.cooldown * (1f - PlayerPropertiesFinal.GetInstance.Cdr);
+    //    skillCD = actionBase.cooldown * (1f - ActorPropertiesFinal.GetInstance.Cdr);
     //    skillUIangle = Mathf.Clamp01((skillCD - skillTime) / skillCD);
     //    skillUI_CoolDown.fillAmount = skillUIangle;
     //}

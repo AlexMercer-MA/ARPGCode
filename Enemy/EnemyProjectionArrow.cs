@@ -49,7 +49,7 @@ public class EnemyProjectionArrow : EnemyProjection
         {
             if (physicalDamage > 0f || magicDamage > 0f)
             {
-                isHit = PlayerPropertiesFinal.GetInstance.TakeDamage(physicalDamage, magicDamage, origin);
+                isHit = ActorPropertiesFinal.GetInstance.TakeDamage(physicalDamage, magicDamage, origin);
             }
             if (isHit)
             {

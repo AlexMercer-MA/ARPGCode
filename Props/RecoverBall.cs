@@ -15,8 +15,8 @@ namespace MXX{
 		{
 			if (other.CompareTag("Player"))
 			{
-				PlayerPropertiesFinal.GetInstance.ChangeHP(0.25f);
-				PlayerPropertiesFinal.GetInstance.ChangeSP(0.25f);
+				ActorPropertiesFinal.GetInstance.ChangeHP(0.25f);
+				ActorPropertiesFinal.GetInstance.ChangeSP(0.25f);
 			}
 		}
 	}

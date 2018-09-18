@@ -33,7 +33,7 @@ public class Warrior_Skill03_Rage : ActionBuffBase
 
     //    skillTime = 0f;
     //    //扣除消耗
-    //    PlayerPropertiesFinal.GetInstance.Sp -= energy * (1f - PlayerPropertiesFinal.GetInstance.Csr);
+    //    ActorPropertiesFinal.GetInstance.Sp -= energy * (1f - ActorPropertiesFinal.GetInstance.Csr);
 
     //    //先选择哪一种技能动画在setTrigger
     //    anim.SetInteger("SkillNum", 3);
@@ -43,7 +43,7 @@ public class Warrior_Skill03_Rage : ActionBuffBase
     //    characterAttack.attackLayerWeight2 = 1.5f;
 
     //    //设置攻击力
-    //    PlayerPropertiesExtra.GetInstance.EXPhyMeleeP += damageMutilpler;
+    //    ActorPropertiesExtra.GetInstance.EXPhyMeleeP += damageMutilpler;
     //    haveBuff = true;
     //    //显示右上角的buff
     //    BuffList.instance.StartBuff(1, duration);
@@ -63,7 +63,7 @@ public class Warrior_Skill03_Rage : ActionBuffBase
     //public void EffectOver()
     //{
     //    //改回攻击力
-    //    PlayerPropertiesExtra.GetInstance.EXPhyMeleeP -= damageMutilpler;
+    //    ActorPropertiesExtra.GetInstance.EXPhyMeleeP -= damageMutilpler;
     //    haveBuff = false;
 
     //    skillTime = 0f;

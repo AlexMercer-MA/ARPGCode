@@ -34,7 +34,7 @@ namespace MXX
         //		bInAction = true;
         //		skillTime = 0f;
         //		//扣除消耗
-        //		PlayerPropertiesFinal.GetInstance.Sp -= energy * (1f-PlayerPropertiesFinal.GetInstance.Csr);
+        //		ActorPropertiesFinal.GetInstance.Sp -= energy * (1f-ActorPropertiesFinal.GetInstance.Csr);
         //		//先选择哪一种技能动画在setTrigger
         //		anim.SetInteger("SkillNum",2);
         //		anim.SetTrigger ("Skill");
@@ -48,7 +48,7 @@ namespace MXX
 
 
         //		characterBehaviour.bInAction = true;
-        //		characterBehaviour.TurnToCameraForward(); //强制面向摄像机前方
+        //		characterBehaviour.TurnToForward(); //强制面向摄像机前方
         //		characterBehaviour.bLockRotate = true; 	  //锁定角色方向
         //		characterBehaviour.bLockMove = true;       //锁定角色移动
         //		characterBehaviour.bCanJump = true;       //锁定角色跳跃
@@ -62,7 +62,7 @@ namespace MXX
         //	public override void SphereDetect()
         //	{
         //		//设置攻击力
-        //		damage = PlayerPropertiesFinal.GetInstance.PhyMelee*4f;
+        //		damage = ActorPropertiesFinal.GetInstance.PhyMelee*4f;
 
         //		//音效
         //		PlayerAudio.GetInstance.Crash ();
@@ -74,7 +74,7 @@ namespace MXX
         //			if (hitColliders[i].CompareTag("Enemy"))
         //			{
         //				EnemyProperties tempEnemyStatus = hitColliders [i].GetComponent<EnemyProperties> ();
-        //				tempEnemyStatus.TakePhysicalRangeDamage (Mathf.RoundToInt(damage),PlayerPropertiesFinal.GetInstance.AmrPeneFix,PlayerPropertiesFinal.GetInstance.AmrPenePer);
+        //				tempEnemyStatus.TakePhysicalRangeDamage (Mathf.RoundToInt(damage),ActorPropertiesFinal.GetInstance.AmrPeneFix,ActorPropertiesFinal.GetInstance.AmrPenePer);
         //				Debug.Log (hitColliders[i].transform.name);
         //			}
         //		}

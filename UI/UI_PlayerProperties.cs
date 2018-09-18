@@ -18,106 +18,106 @@ public class UI_PlayerProperties : MonoBehaviour
             "\n" +
             "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.Str + "\n" +
-            PlayerPropertiesFinal.GetInstance.Dex + "\n" +
-            PlayerPropertiesFinal.GetInstance.Int + "\n" +
-            PlayerPropertiesFinal.GetInstance.Spi + "\n" +
-            PlayerPropertiesFinal.GetInstance.Cun + "\n" +
-            PlayerPropertiesFinal.GetInstance.Vit + "\n" +
+            ActorPropertiesFinal.GetInstance.Str + "\n" +
+            ActorPropertiesFinal.GetInstance.Dex + "\n" +
+            ActorPropertiesFinal.GetInstance.Int + "\n" +
+            ActorPropertiesFinal.GetInstance.Spi + "\n" +
+            ActorPropertiesFinal.GetInstance.Cun + "\n" +
+            ActorPropertiesFinal.GetInstance.Vit + "\n" +
             "\n" +
             "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.PhyMeleeMin + "-" + PlayerPropertiesFinal.GetInstance.PhyMeleeMax + "\n" +
-            PlayerPropertiesFinal.GetInstance.PhyRangeMin + "-" + PlayerPropertiesFinal.GetInstance.PhyRangeMax + "\n" +
+            ActorPropertiesFinal.GetInstance.PhyMeleeMin + "-" + ActorPropertiesFinal.GetInstance.PhyMeleeMax + "\n" +
+            ActorPropertiesFinal.GetInstance.PhyRangeMin + "-" + ActorPropertiesFinal.GetInstance.PhyRangeMax + "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.MgiMin + "-" + PlayerPropertiesFinal.GetInstance.MgiMax + "\n" +
-            PlayerPropertiesFinal.GetInstance.FireDmgMax + "-" + PlayerPropertiesFinal.GetInstance.FireDmgMin + "\n" +
-            PlayerPropertiesFinal.GetInstance.IceDmgMax + "-" + PlayerPropertiesFinal.GetInstance.IceDmgMin + "\n" +
-            PlayerPropertiesFinal.GetInstance.LightningDmgMax + "-" + PlayerPropertiesFinal.GetInstance.LightningDmgMin + "\n" +
-            PlayerPropertiesFinal.GetInstance.PoisonDmgMax + "-" + PlayerPropertiesFinal.GetInstance.PoisonDmgMin + "\n" +
-            PlayerPropertiesFinal.GetInstance.ArcaneDmgMax + "-" + PlayerPropertiesFinal.GetInstance.ArcaneDmgMin + "\n" +
-            PlayerPropertiesFinal.GetInstance.HolyDmgMax + "-" + PlayerPropertiesFinal.GetInstance.HolyDmgMin + "\n" +
-            PlayerPropertiesFinal.GetInstance.ShadowDmgMax + "-" + PlayerPropertiesFinal.GetInstance.ShadowDmgMin + "\n" +
+            ActorPropertiesFinal.GetInstance.MgiMin + "-" + ActorPropertiesFinal.GetInstance.MgiMax + "\n" +
+            ActorPropertiesFinal.GetInstance.FireDmgMax + "-" + ActorPropertiesFinal.GetInstance.FireDmgMin + "\n" +
+            ActorPropertiesFinal.GetInstance.IceDmgMax + "-" + ActorPropertiesFinal.GetInstance.IceDmgMin + "\n" +
+            ActorPropertiesFinal.GetInstance.LightningDmgMax + "-" + ActorPropertiesFinal.GetInstance.LightningDmgMin + "\n" +
+            ActorPropertiesFinal.GetInstance.PoisonDmgMax + "-" + ActorPropertiesFinal.GetInstance.PoisonDmgMin + "\n" +
+            ActorPropertiesFinal.GetInstance.ArcaneDmgMax + "-" + ActorPropertiesFinal.GetInstance.ArcaneDmgMin + "\n" +
+            ActorPropertiesFinal.GetInstance.HolyDmgMax + "-" + ActorPropertiesFinal.GetInstance.HolyDmgMin + "\n" +
+            ActorPropertiesFinal.GetInstance.ShadowDmgMax + "-" + ActorPropertiesFinal.GetInstance.ShadowDmgMin + "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.Ias + "\n" +
-            PlayerPropertiesFinal.GetInstance.Acc + "\n" +
+            ActorPropertiesFinal.GetInstance.Ias + "\n" +
+            ActorPropertiesFinal.GetInstance.Acc + "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.CriPhyMeleeCha + "\n" +
-            PlayerPropertiesFinal.GetInstance.CriPhyMeleeDmg + "\n" +
-            PlayerPropertiesFinal.GetInstance.CriPhyRangeCha + "\n" +
-            PlayerPropertiesFinal.GetInstance.CriPhyRangeDmg + "\n" +
-            PlayerPropertiesFinal.GetInstance.CriMgiCha + "\n" +
-            PlayerPropertiesFinal.GetInstance.CriMgiDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.CriPhyMeleeCha + "\n" +
+            ActorPropertiesFinal.GetInstance.CriPhyMeleeDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.CriPhyRangeCha + "\n" +
+            ActorPropertiesFinal.GetInstance.CriPhyRangeDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.CriMgiCha + "\n" +
+            ActorPropertiesFinal.GetInstance.CriMgiDmg + "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.AmrPeneFix + "\n" +
-            PlayerPropertiesFinal.GetInstance.AmrPenePer + "\n" +
-            PlayerPropertiesFinal.GetInstance.ResPeneFix + "\n" +
-            PlayerPropertiesFinal.GetInstance.ResPenePer + "\n" +
+            ActorPropertiesFinal.GetInstance.AmrPeneFix + "\n" +
+            ActorPropertiesFinal.GetInstance.AmrPenePer + "\n" +
+            ActorPropertiesFinal.GetInstance.ResPeneFix + "\n" +
+            ActorPropertiesFinal.GetInstance.ResPenePer + "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.Cdr + "\n" +
-            PlayerPropertiesFinal.GetInstance.Csr + "\n" +
+            ActorPropertiesFinal.GetInstance.Cdr + "\n" +
+            ActorPropertiesFinal.GetInstance.Csr + "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.HumanDmg + "\n" +
-            PlayerPropertiesFinal.GetInstance.BeastDmg + "\n" +
-            PlayerPropertiesFinal.GetInstance.UndeadDmg + "\n" +
-            PlayerPropertiesFinal.GetInstance.DragonDmg + "\n" +
-            PlayerPropertiesFinal.GetInstance.DemonDmg + "\n" +
-            PlayerPropertiesFinal.GetInstance.ElementDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.HumanDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.BeastDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.UndeadDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.DragonDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.DemonDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.ElementDmg + "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.NormalDmg + "\n" +
-            PlayerPropertiesFinal.GetInstance.EliteDmg + "\n" +
-            PlayerPropertiesFinal.GetInstance.BossDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.NormalDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.EliteDmg + "\n" +
+            ActorPropertiesFinal.GetInstance.BossDmg + "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.FinalDmgBoost + "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            PlayerPropertiesFinal.GetInstance.Amr + "\n" +
-            PlayerPropertiesFinal.GetInstance.Res + "\n" +
-            "\n" +
-            PlayerPropertiesFinal.GetInstance.FireRes + "\n" +
-            PlayerPropertiesFinal.GetInstance.IceRes + "\n" +
-            PlayerPropertiesFinal.GetInstance.LightningRes + "\n" +
-            PlayerPropertiesFinal.GetInstance.PoisonRes + "\n" +
-            PlayerPropertiesFinal.GetInstance.ShadowRes + "\n" +
-            PlayerPropertiesFinal.GetInstance.HolyRes + "\n" +
-            PlayerPropertiesFinal.GetInstance.ArcaneRes + "\n" +
-            "\n" +
-            PlayerPropertiesFinal.GetInstance.BlkCha + "\n" +
-            PlayerPropertiesFinal.GetInstance.BlkFix + "\n" +
-            PlayerPropertiesFinal.GetInstance.BlkPer + "\n" +
-            PlayerPropertiesFinal.GetInstance.Eva + "\n" +
-            PlayerPropertiesFinal.GetInstance.Tough + "\n" +
-            PlayerPropertiesFinal.GetInstance.Thorns + "\n" +
-            "\n" +
-            PlayerPropertiesFinal.GetInstance.MeleeDmgReduce + "\n" +
-            PlayerPropertiesFinal.GetInstance.RangeDmgReduce + "\n" +
-            "\n" +
-            PlayerPropertiesFinal.GetInstance.FinalDmgReduce + "\n" +
+            ActorPropertiesFinal.GetInstance.FinalDmgBoost + "\n" +
             "\n" +
             "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.HpMax + "\n" +
-            PlayerPropertiesFinal.GetInstance.HpReg + "\n" +
-            PlayerPropertiesFinal.GetInstance.HpHitReg + "\n" +
-            PlayerPropertiesFinal.GetInstance.HpKillReg + "\n" +
-            PlayerPropertiesFinal.GetInstance.HpRegPerSpCost + "\n" +
-            PlayerPropertiesFinal.GetInstance.HpReciFix + "\n" +
-            PlayerPropertiesFinal.GetInstance.HpReciPer + "\n" +
+            ActorPropertiesFinal.GetInstance.Amr + "\n" +
+            ActorPropertiesFinal.GetInstance.Res + "\n" +
+            "\n" +
+            ActorPropertiesFinal.GetInstance.FireRes + "\n" +
+            ActorPropertiesFinal.GetInstance.IceRes + "\n" +
+            ActorPropertiesFinal.GetInstance.LightningRes + "\n" +
+            ActorPropertiesFinal.GetInstance.PoisonRes + "\n" +
+            ActorPropertiesFinal.GetInstance.ShadowRes + "\n" +
+            ActorPropertiesFinal.GetInstance.HolyRes + "\n" +
+            ActorPropertiesFinal.GetInstance.ArcaneRes + "\n" +
+            "\n" +
+            ActorPropertiesFinal.GetInstance.BlkCha + "\n" +
+            ActorPropertiesFinal.GetInstance.BlkFix + "\n" +
+            ActorPropertiesFinal.GetInstance.BlkPer + "\n" +
+            ActorPropertiesFinal.GetInstance.Eva + "\n" +
+            ActorPropertiesFinal.GetInstance.Tough + "\n" +
+            ActorPropertiesFinal.GetInstance.Thorns + "\n" +
+            "\n" +
+            ActorPropertiesFinal.GetInstance.MeleeDmgReduce + "\n" +
+            ActorPropertiesFinal.GetInstance.RangeDmgReduce + "\n" +
+            "\n" +
+            ActorPropertiesFinal.GetInstance.FinalDmgReduce + "\n" +
             "\n" +
             "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.SpMax + "\n" +
-            PlayerPropertiesFinal.GetInstance.SpReg + "\n" +
-            PlayerPropertiesFinal.GetInstance.SpHitReg + "\n" +
-            PlayerPropertiesFinal.GetInstance.SpKillReg + "\n" +
+            ActorPropertiesFinal.GetInstance.HpMax + "\n" +
+            ActorPropertiesFinal.GetInstance.HpReg + "\n" +
+            ActorPropertiesFinal.GetInstance.HpHitReg + "\n" +
+            ActorPropertiesFinal.GetInstance.HpKillReg + "\n" +
+            ActorPropertiesFinal.GetInstance.HpRegPerSpCost + "\n" +
+            ActorPropertiesFinal.GetInstance.HpReciFix + "\n" +
+            ActorPropertiesFinal.GetInstance.HpReciPer + "\n" +
             "\n" +
             "\n" +
             "\n" +
-            PlayerPropertiesFinal.GetInstance.Spd + "\n" +
-            PlayerPropertiesFinal.GetInstance.GoldGet + "\n" +
-            PlayerPropertiesFinal.GetInstance.ExpGet + "\n" +
-            PlayerPropertiesFinal.GetInstance.ItemGet + "\n" +
-            PlayerPropertiesFinal.GetInstance.GetRange + "\n";
+            ActorPropertiesFinal.GetInstance.SpMax + "\n" +
+            ActorPropertiesFinal.GetInstance.SpReg + "\n" +
+            ActorPropertiesFinal.GetInstance.SpHitReg + "\n" +
+            ActorPropertiesFinal.GetInstance.SpKillReg + "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            ActorPropertiesFinal.GetInstance.Spd + "\n" +
+            ActorPropertiesFinal.GetInstance.GoldGet + "\n" +
+            ActorPropertiesFinal.GetInstance.ExpGet + "\n" +
+            ActorPropertiesFinal.GetInstance.ItemGet + "\n" +
+            ActorPropertiesFinal.GetInstance.GetRange + "\n";
     }
 }

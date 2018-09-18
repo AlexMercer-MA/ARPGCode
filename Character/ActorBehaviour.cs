@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class CharacterBehaviour : MonoBehaviour
+public class ActorBehaviour : MonoBehaviour
 {
-    public static CharacterBehaviour GetInstace { get { return instance; } }
-    private static CharacterBehaviour instance;
 
     //摄像机
     public GameObject cam;
@@ -14,44 +12,27 @@ public class CharacterBehaviour : MonoBehaviour
     public CharacterController characterController;
     //动画控制器
     public Animator anim;
-    //移动速度 现在移到 GameBaseProperties 中
-    //public float moveSpeed;
     //角色转向平滑程度
     public float rotateLerp = 10f;
+    
+    bool jump;             //是否进行跳跃
 
-
-    // -------------------------- 玩家输入PlayerInput --------------------------
-    //玩家按下的方向键
-    bool right = false;
-    bool left = false;
-    bool forward = false;
-    bool backward = false;
-    float H;               //水平轴值输入
-    float V;               //垂直轴值输入
-    //玩家按下的动作键，同一时间仅一个有效值
-    ActionKey actionKey;   //是否进行动作按键，有优先级(Tab>Shift>Ctrl>4>3>2>1>R>E>Q>RMB>LMB)
-    [SerializeField]
-    bool jump;             //是否进行跳跃按键
-
-
-    // -------------------------- 玩家角色信息 PlayerCharacter --------------------------
-    //玩家目标y轴角度(插值目标的值)
+    // -------------------------- 角色角色信息 PlayerCharacter --------------------------
+    //角色目标y轴角度(插值目标的值)
     float targetAngle;
-    //玩家当前y轴角度(插值之后的值)
+    //角色当前y轴角度(插值之后的值)
     float playerAngle;
-    //玩家输入按键补偿角度
+    //角色输入按键补偿角度(8方向移动)
     float turnAngle;
     //垂直方向速度
     public float gSpeed;
-    //重力
-    public float gravity = 20f;
     //跳跃力
     public float jumpForce = 8f;
     //GroundCheck脚本
     public GroundCheck groundCheck;
-    //玩家在水平面的移动向量（不包括重力方向）
+    //角色在水平面的移动向量（不包括重力方向）
     public Vector3 flatMove;
-    //玩家最终移动向量（包括重力方向）
+    //角色最终移动向量（包括重力方向）
     public Vector3 finalMove;
 
 
@@ -59,19 +40,17 @@ public class CharacterBehaviour : MonoBehaviour
 
     // --------- 1 主要 Major ---------
     //------------------------------------------------------------------------------------------
-    //玩家能否控制角色
-    public bool bCanControl = true;
-    //是否死亡(不一定 hp <= 0 就是死亡，还会有其他条件)(是否可以死亡)
-    public bool bIsDead = false;
-    //玩家是否进入UI菜单模式(UI模式 可以移动Move, 不能旋转Rotate)
-    public bool inUIMode = false;
-    //是否可以死亡（默认可以死亡）
-    public bool bCanDead = true;
-    //是否脚踩地面
-    public bool bIsGrounded;
+    //角色能否控制角色
+    public bool canControl = true;
+    //是否存活(不一定 hp <= 0 就是死亡，还会有其他条件)(是否可以死亡)
+    public bool isAlive = true;
+    //是否无敌
+    public bool isInvernable = false;
 
     // --------- 2 重力 Gravity ---------
     //------------------------------------------------------------------------------------------
+    //是否脚踩地面
+    public bool isGrounded;
     //可选设置：不受重力，锁定重力（Num），默认重力
     // - 无视重力 bIgnoreGravity（最高优先级）
     public bool bIgnoreGravity = false;
@@ -89,16 +68,16 @@ public class CharacterBehaviour : MonoBehaviour
 
     // --------- 4 移动 Move ---------
     //------------------------------------------------------------------------------------------
-    // - 玩家是否可以移动（最高优先级）
+    // - 角色是否可以移动（最高优先级）
     public bool bCanMove = true;
-    // - 玩家是否强制移动
+    // - 角色是否强制移动
     public bool bLockMove = false;
     // - 如何处理 强制移动的速度
     // (true-使用lockMoveSpeedValue来强制移动; false-使用PropertiesFinal.Spd * lockMoveSpeedModifier来强制移动)
     public bool bUseLockMoveSpeed = false;
-    // - 玩家强制移动速度 定额数值
+    // - 角色强制移动速度 定额数值
     public float lockMoveSpeedValue = 0.0f;
-    // - 玩家强制移动速度 乘以系数
+    // - 角色强制移动速度 乘以系数
     public float lockMoveSpeedModifier = 1.0f;
 
     // --------- 5 跳跃 Jump ---------
@@ -120,7 +99,7 @@ public class CharacterBehaviour : MonoBehaviour
     //------------------------------------------------------------------------------------------
     // - 当前动作可被另一个动作打断（结束前能否做其他操作，如Shift能否打断LMB普通攻击）
     public bool bCanBreak = false;
-    // - 玩家是否正在进行一个动作，已经在进行一个动作就无法开始第二个动作
+    // - 角色是否正在进行一个动作，已经在进行一个动作就无法开始第二个动作
     public bool bInAction = false;
 
     // -------------------------- 子物体挂载点ChildObj --------------------------
@@ -135,12 +114,12 @@ public class CharacterBehaviour : MonoBehaviour
         cam = Camera.main.gameObject;
         characterController = gameObject.GetComponent<CharacterController>();
     }
-    
+
     //  Update  主循环
     //------------------------------------------------------------------------------------------
     void Update()
     {
-        //01 玩家输入 PlayerInput
+        //01 角色输入 PlayerInput
         PlayerInput();
 
         //02 重力 Gravity
@@ -158,30 +137,30 @@ public class CharacterBehaviour : MonoBehaviour
             CannotControlDie();
             return;
         }
-        
+
         //可以 控制  Can Control
         //------------------------------------------------------------------------------------------
         if (bCanControl)
         {
-        // 04 旋转玩家角度 Rotate
-        //------------------------------------------------------------------------------------------
+            // 04 旋转角色角度 Rotate
+            //------------------------------------------------------------------------------------------
             if (!bLockRotate && !inUIMode && eLockRotationDir == LockDirection.NONE)
             {
                 Rotate();
             }
             else if (eLockRotationDir == LockDirection.FORWARD)
             {
-                // 锁定必须向前 FaceDirectionCorrection玩家面向角度校正 仅改变玩家面朝方向 不改变移动方向向量playerAngle
-                TurnToCameraForward();
+                // 锁定必须向前 FaceDirectionCorrection角色面向角度校正 仅改变角色面朝方向 不改变移动方向向量playerAngle
+                TurnForwardAndLock();
             }
-            else if (eLockRotationDir == LockDirection.FORWARD)
+            else if (eLockRotationDir == LockDirection.BACKWARD)
             {
-                TurnToCameraBackward();
+                TurnBackwardAndLock();
             }
             // 其余情况 锁定旋转 不用处理(bLockRotate 或者 inUIMode)
 
-        // 05 移动玩家 Move
-        //------------------------------------------------------------------------------------------
+            // 05 移动角色 Move
+            //------------------------------------------------------------------------------------------
             if (bCanMove)
             {
                 if (bLockMove)
@@ -195,15 +174,15 @@ public class CharacterBehaviour : MonoBehaviour
                 }
             }
 
-        // 06 跳跃 Jump
-        //------------------------------------------------------------------------------------------
+            // 06 跳跃 Jump
+            //------------------------------------------------------------------------------------------
             if (!inUIMode && bCanJump)
             {
                 Jump();
             }
 
-        //07 根据PlayerInput 决定 Attack&Skills玩家释放技能
-        //------------------------------------------------------------------------------------------
+            //07 根据PlayerInput 决定 Attack&Skills角色释放技能
+            //------------------------------------------------------------------------------------------
             //07-1  先更新所有激活Action           无论是否有输入，都需要更新Action
             CharacterAction.GetInstance.UpdateAction();         //处理刷新
             //07-2  再操作当前Action               每一次Update中只能对一个输入值进行Action
@@ -234,7 +213,7 @@ public class CharacterBehaviour : MonoBehaviour
     //  其他函数 Function
     //------------------------------------------------------------------------------------------
 
-    // 玩家输入 Player Input
+    // 角色输入 Player Input
     void PlayerInput()
     {
         //Axis 轴值输入
@@ -431,7 +410,7 @@ public class CharacterBehaviour : MonoBehaviour
     {
         //水平面方向速度
         flatMove = ((Mathf.Abs(V) + Mathf.Abs(H)) * transform.TransformDirection(Vector3.forward)).normalized * ActorPropertiesBase.GetInstance.Spd;//保证两个方向键一起按的时候，速度不会超过1
-                                                                                                                                                        //改变animator fSpeed
+                                                                                                                                                    //改变animator fSpeed
         anim.SetFloat("fSpeed", flatMove.magnitude);
         //总速度向量
         finalMove = (flatMove + new Vector3(0f, gSpeed, 0f));
@@ -456,35 +435,36 @@ public class CharacterBehaviour : MonoBehaviour
         characterController.Move(finalMove * Time.deltaTime);
     }
     
-    //立刻转向某一方向 TurnImmediate（最高优先级，不受LockRotate影响，如果需要可以先做判断是否已经LockRotate）
-    public void TurnImmediate(LockDirection dir)
+
+    public void TurnToAngle(float deltaAngle)
     {
-        switch (dir)
-        {
-            case LockDirection.FORWARD:
-                characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.rotation.eulerAngles.y, 0f));
-                break;
-            case LockDirection.BACKWARD:
-                characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, -cam.transform.rotation.eulerAngles.y, 0f));
-                break;
-            default:
-                break;
-        }
+        characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, this.transform.rotation.eulerAngles.y + deltaAngle, 0f));
     }
 
-    //旋转转向镜头前方
-    public void TurnToCameraForward()
+    public void TurnBackward()
     {
-        characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.rotation.eulerAngles.y, 0f));
+        characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, -1 * this.transform.rotation.eulerAngles.y, 0f));
     }
 
-    //旋转转向镜头前方
-    public void TurnToCameraBackward()
+    //顺时针旋转某些角度，并使人物锁定（最高优先级，不受LockRotate影响，如果需要可以先做判断是否已经LockRotate）
+    public void TurnToAngleAndLock(float deltaAngle)
     {
-        characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, -cam.transform.rotation.eulerAngles.y, 0f));
+        TurnToAngle(deltaAngle);
+        
     }
 
-    //玩家无法控制时的人物行为
+    //旋转转向人物前方并锁定（最高优先级，不受LockRotate影响，如果需要可以先做判断是否已经LockRotate）
+    public void TurnForwardAndLock()
+    {
+        characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, this.transform.rotation.eulerAngles.y, 0f));
+    }
+
+    //旋转转向镜头前方并锁定（最高优先级，不受LockRotate影响，如果需要可以先做判断是否已经LockRotate）
+    public void TurnBackwardAndLock()
+    {
+    }
+
+    //角色无法控制时的人物行为
     void CannotControl()
     {
         Gravity();
@@ -493,7 +473,7 @@ public class CharacterBehaviour : MonoBehaviour
         characterController.Move(finalMove * Time.deltaTime);
     }
 
-    //玩家死亡后的人物行为
+    //角色死亡后的人物行为
     void CannotControlDie()
     {
         //垂直方向速度,无论什么状态 都应该受到重力影响

@@ -249,7 +249,7 @@ public class AnimationEvent : MonoBehaviour
         characterBehaviour.bLockMove = false; //不再锁定移动
         characterBehaviour.bCanJump = false; //不再锁定跳跃
 
-        characterBehaviour.eLockRotationDir = Direction.None; //不再强制面对镜头前方
+        characterBehaviour.eLockRotationDir = LockDirection.None; //不再强制面对镜头前方
         characterBehaviour.lockMoveSpeedModifier = 1f; //恢复普通移动速度
         characterAttack.skill = Skills.none; //不再处于释放某种技能的状态
         TrailOver();                        //不在拖尾

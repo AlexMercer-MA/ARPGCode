@@ -23,7 +23,7 @@ public class PlayerAudio : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerPropertiesFinal.GetInstance.IsDead)
+        if (ActorPropertiesFinal.GetInstance.IsDead)
         {
             return;
         }

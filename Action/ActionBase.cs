@@ -328,7 +328,7 @@ public abstract class ActionBase : MonoBehaviour
 
     bool ActionPreCheckEnergy()                //检查能量消耗
     {
-        if (PlayerPropertiesFinal.GetInstance.Sp >= energyCost * PlayerPropertiesFinal.GetInstance.Csr_Action)
+        if (ActorPropertiesFinal.GetInstance.Sp >= energyCost * ActorPropertiesFinal.GetInstance.Csr_Action)
         {
             return true;
         }
@@ -342,7 +342,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         if (!(kpAfCost > 0))
             return true;
-        if (kpAfCost <= PlayerPropertiesFinal.GetInstance.KPA_f)
+        if (kpAfCost <= ActorPropertiesFinal.GetInstance.KPA_f)
             return true;
         return false;
     }
@@ -351,7 +351,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         if (!(kpBfCost > 0))
             return true;
-        if (kpBfCost <= PlayerPropertiesFinal.GetInstance.KPB_f)
+        if (kpBfCost <= ActorPropertiesFinal.GetInstance.KPB_f)
             return true;
         return false;
     }
@@ -360,7 +360,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         if (kpAiCost <= 0)
             return true;
-        if (kpAiCost <= PlayerPropertiesFinal.GetInstance.KPA_i)
+        if (kpAiCost <= ActorPropertiesFinal.GetInstance.KPA_i)
             return true;
         return false;
     }
@@ -369,14 +369,14 @@ public abstract class ActionBase : MonoBehaviour
     {
         if (kpBiCost <= 0)
             return true;
-        if (kpBiCost <= PlayerPropertiesFinal.GetInstance.KPB_i)
+        if (kpBiCost <= ActorPropertiesFinal.GetInstance.KPB_i)
             return true;
         return false;
     }
 
     bool ActionPreCheckCD()                    //检查冷却时间
     {
-        if (actionTimeStamp >= coolDown * PlayerPropertiesFinal.GetInstance.Cdr_Action)
+        if (actionTimeStamp >= coolDown * ActorPropertiesFinal.GetInstance.Cdr_Action)
         {
             return true;
         }

@@ -20,7 +20,7 @@ public class AttributePanelManager : MonoBehaviour {
 
     private void Start()
     {
-        PlayerPropertiesBase.GetInstance.EvtPlayerPropertiesBaseChange += OnEvtPlayerPropertiesBaseChange;
+        ActorPropertiesBase.GetInstance.EvtPlayerPropertiesBaseChange += OnEvtPlayerPropertiesBaseChange;
         OnAttributePointsChange();
     }
 
@@ -68,11 +68,11 @@ public class AttributePanelManager : MonoBehaviour {
 
     void OnEvtPlayerPropertiesBaseChange()
     {
-        attributeTextArray[0].text = PlayerPropertiesBase.GetInstance.Str.ToString();
-        attributeTextArray[1].text = PlayerPropertiesBase.GetInstance.Dex.ToString();
-        attributeTextArray[2].text = PlayerPropertiesBase.GetInstance.Int.ToString();
-        attributeTextArray[3].text = PlayerPropertiesBase.GetInstance.Spi.ToString();
-        attributeTextArray[4].text = PlayerPropertiesBase.GetInstance.Cun.ToString();
-        attributeTextArray[5].text = PlayerPropertiesBase.GetInstance.Vit.ToString();
+        attributeTextArray[0].text = ActorPropertiesBase.GetInstance.Str.ToString();
+        attributeTextArray[1].text = ActorPropertiesBase.GetInstance.Dex.ToString();
+        attributeTextArray[2].text = ActorPropertiesBase.GetInstance.Int.ToString();
+        attributeTextArray[3].text = ActorPropertiesBase.GetInstance.Spi.ToString();
+        attributeTextArray[4].text = ActorPropertiesBase.GetInstance.Cun.ToString();
+        attributeTextArray[5].text = ActorPropertiesBase.GetInstance.Vit.ToString();
     }
 }
