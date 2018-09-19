@@ -35,10 +35,10 @@ using UnityEngine;
  * 15EvtActionEnd
  */
 
-public class ActionManager : MonoBehaviour{
+public class ActorAction : MonoBehaviour{
 
-    public static ActionManager GetInstance { get { return instance; } }
-    private static ActionManager instance;
+    public static ActorAction GetInstance { get { return instance; } }
+    private static ActorAction instance;
 
     void Awake ()
     {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameSetting : MonoBehaviour
+public class GameProgramOptions : MonoBehaviour
 {
-    public static GameSetting GetInstance;
+    public static GameProgramOptions GetInstance;
     public float audioValue;
     public float mouseSensitivity = 16f;
 

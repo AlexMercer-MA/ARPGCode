@@ -48,9 +48,9 @@ public class PlayerPropertiesBase : ActorPropertiesBase
     void CheckUpgrade()
     {
         //如果经验值达到了该等级要求，就需要升级
-        if (Experience >= GameProperties.GetInstance.UpgradeExperience[Level])
+        if (Experience >= GameSettingManager.GetInstance.UpgradeExperience[Level])
         {
-            Experience -= GameProperties.GetInstance.UpgradeExperience[Level];
+            Experience -= GameSettingManager.GetInstance.UpgradeExperience[Level];
             Level++;
 
             //TODO 改变属性 改为加点

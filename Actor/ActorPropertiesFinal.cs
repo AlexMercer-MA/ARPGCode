@@ -312,7 +312,7 @@ public class ActorPropertiesFinal : MonoBehaviour
     public float _spCostHpReg;
     
     //冒险属性
-    public float Spd { get { return Mathf.Clamp(_spd, GameProperties.GetInstance.minMoveSpeed, _spd); } set { _spd = value; } }//移动速度有最小值
+    public float Spd { get { return Mathf.Clamp(_spd, GameSettingManager.GetInstance.minMoveSpeed, _spd); } set { _spd = value; } }//移动速度有最小值
     public float _spd;
     public float GoldGet { get { return Mathf.Clamp(_goldGet, 0.0f, _goldGet); } set { _goldGet = value; } }
     public float _goldGet;
@@ -408,8 +408,8 @@ public class ActorPropertiesFinal : MonoBehaviour
         //攻击--------------------------------------------------------------------------------------------------------------------------
 
         //物理攻击近战
-        BasePhyMeleeMax = Mathf.RoundToInt(b.PhyMeleeMax + Str * GameProperties.GetInstance.Phy_Melee_PerStr + Dex * GameProperties.GetInstance.Phy_Melee_Per_Dex);
-        BasePhyMeleeMin = Mathf.RoundToInt(b.PhyMeleeMin + Str * GameProperties.GetInstance.Phy_Melee_PerStr + Dex * GameProperties.GetInstance.Phy_Melee_Per_Dex);
+        BasePhyMeleeMax = Mathf.RoundToInt(b.PhyMeleeMax + Str * GameSettingManager.GetInstance.Phy_Melee_PerStr + Dex * GameSettingManager.GetInstance.Phy_Melee_Per_Dex);
+        BasePhyMeleeMin = Mathf.RoundToInt(b.PhyMeleeMin + Str * GameSettingManager.GetInstance.Phy_Melee_PerStr + Dex * GameSettingManager.GetInstance.Phy_Melee_Per_Dex);
         BasePhyMelee = Mathf.RoundToInt(0.5f * (BasePhyMeleeMax + BasePhyMeleeMin));
 
         PhyMeleeMax = Mathf.RoundToInt((BasePhyMeleeMax + e.EXPhyMeleeMaxF) * (1 + e.EXPhyMeleeP) + e.FXPhyMelee);
@@ -417,8 +417,8 @@ public class ActorPropertiesFinal : MonoBehaviour
         PhyMelee = Mathf.RoundToInt(0.5f * (PhyMeleeMax + PhyMeleeMin));
 
         //物理攻击远程
-        BasePhyRangeMax = Mathf.RoundToInt(b.PhyRangeMax + Str * GameProperties.GetInstance.Phy_Range_PerStr + Dex * GameProperties.GetInstance.Phy_Range_Per_Dex);
-        BasePhyRangeMin = Mathf.RoundToInt(b.PhyRangeMin + Str * GameProperties.GetInstance.Phy_Range_PerStr + Dex * GameProperties.GetInstance.Phy_Range_Per_Dex);
+        BasePhyRangeMax = Mathf.RoundToInt(b.PhyRangeMax + Str * GameSettingManager.GetInstance.Phy_Range_PerStr + Dex * GameSettingManager.GetInstance.Phy_Range_Per_Dex);
+        BasePhyRangeMin = Mathf.RoundToInt(b.PhyRangeMin + Str * GameSettingManager.GetInstance.Phy_Range_PerStr + Dex * GameSettingManager.GetInstance.Phy_Range_Per_Dex);
         BasePhyRange = Mathf.RoundToInt(0.5f * (BasePhyRangeMax + BasePhyRangeMin));
 
         PhyRangeMax = Mathf.RoundToInt((BasePhyRangeMax + e.EXPhyRangeMaxF) * (1 + e.EXPhyRangeP) + e.FXPhyRange);
@@ -426,8 +426,8 @@ public class ActorPropertiesFinal : MonoBehaviour
         PhyRange = Mathf.RoundToInt(0.5f * (PhyRangeMax + PhyRangeMin));
 
         //基础魔法攻击
-        BaseMgiMax = Mathf.RoundToInt(b.MgiMax + Int * GameProperties.GetInstance.Mgi_Per_Int);
-        BaseMgiMin = Mathf.RoundToInt(b.MgiMin + Int * GameProperties.GetInstance.Mgi_Per_Int);
+        BaseMgiMax = Mathf.RoundToInt(b.MgiMax + Int * GameSettingManager.GetInstance.Mgi_Per_Int);
+        BaseMgiMin = Mathf.RoundToInt(b.MgiMin + Int * GameSettingManager.GetInstance.Mgi_Per_Int);
         BaseMgi = Mathf.RoundToInt(0.5f * (BaseMgiMax + BaseMgiMin));
 
         MgiMax = Mathf.RoundToInt((BaseMgiMax + e.EXMgiMaxF) * (1 + e.EXMgiP) + e.FXMgi);
@@ -453,11 +453,11 @@ public class ActorPropertiesFinal : MonoBehaviour
         //ArcaneDmg = Mathf.RoundToInt((b.ArcaneDmg + e.EXArcaneDmgF) * (1 + e.EXArcaneDmgP) + e.FXArcaneDmg);
 
         //攻击速度
-        Ias = (b.Ias + e.EXIasF + (Dex * GameProperties.GetInstance.Ias_Per_Dex)) * (1 + e.EXIasP) + e.FXIas;
+        Ias = (b.Ias + e.EXIasF + (Dex * GameSettingManager.GetInstance.Ias_Per_Dex)) * (1 + e.EXIasP) + e.FXIas;
 
         //基础暴击
-        CriCha = (b.CriCha + e.EXCriChaF + (Dex * GameProperties.GetInstance.CriCha_Per_Dex)) * (1 + e.EXCriChaP) + e.FXCriCha;
-        CriDmg = (b.CriDmg + e.EXCriDmgF) * (1 + e.EXCriDmgP) + e.FXCriDmg + GameProperties.GetInstance.basic_CriDmg;
+        CriCha = (b.CriCha + e.EXCriChaF + (Dex * GameSettingManager.GetInstance.CriCha_Per_Dex)) * (1 + e.EXCriChaP) + e.FXCriCha;
+        CriDmg = (b.CriDmg + e.EXCriDmgF) * (1 + e.EXCriDmgP) + e.FXCriDmg + GameSettingManager.GetInstance.basic_CriDmg;
         //物理暴击
         CriPhyMeleeCha = (b.CriPhyMeleeCha + e.EXCriPhyMeleeChaF) * (1 + e.EXCriPhyMeleeChaP) + e.FXCriPhyMeleeCha + CriCha;
         CriPhyMeleeDmg = (b.CriPhyMeleeDmg + e.EXCriPhyMeleeDmgF) * (1 + e.EXCriPhyMeleeDmgP) + e.FXCriPhyMeleeDmg + CriDmg;
@@ -475,9 +475,9 @@ public class ActorPropertiesFinal : MonoBehaviour
         ResPeneFix = Mathf.RoundToInt((b.ResPeneFix + e.EXResPeneFixF) * (1 + e.EXResPeneFixP) + e.FXResPeneFix);
         ResPenePer = (b.ResPenePer + e.EXResPenePerF) * (1 + e.EXResPenePerP) + e.FXResPenePer;
         //冷却缩减
-        Cdr = (b.Cdr + e.EXCdrF + (Spi * GameProperties.GetInstance.Cdr_Per_Spi)) * (1 + e.EXCdrP) + e.FXCdr;
+        Cdr = (b.Cdr + e.EXCdrF + (Spi * GameSettingManager.GetInstance.Cdr_Per_Spi)) * (1 + e.EXCdrP) + e.FXCdr;
         //消耗缩减
-        Csr = (b.Csr + e.EXCsrF + (Spi * GameProperties.GetInstance.Csr_Per_Spi)) * (1 + e.EXCsrP) + e.FXCsr;
+        Csr = (b.Csr + e.EXCsrF + (Spi * GameSettingManager.GetInstance.Csr_Per_Spi)) * (1 + e.EXCsrP) + e.FXCsr;
         //精准命中
         Acc = (b.Acc + e.EXAccF) * (1 + e.EXAccP) + e.FXAcc;
 
@@ -496,8 +496,8 @@ public class ActorPropertiesFinal : MonoBehaviour
         //防御属性--------------------------------------------------------------------------------------------------------------------------
 
         //护甲和魔抗
-        Amr = Mathf.RoundToInt((b.Amr + e.EXAmrF + (Str * GameProperties.GetInstance.Amr_PerStr)) * (1 + e.EXAmrP) + e.FXAmr);
-        Res = Mathf.RoundToInt((b.Res + e.EXResF + (Int * GameProperties.GetInstance.Res_Per_Int)) * (1 + e.EXResP) + e.FXRes);
+        Amr = Mathf.RoundToInt((b.Amr + e.EXAmrF + (Str * GameSettingManager.GetInstance.Amr_PerStr)) * (1 + e.EXAmrP) + e.FXAmr);
+        Res = Mathf.RoundToInt((b.Res + e.EXResF + (Int * GameSettingManager.GetInstance.Res_Per_Int)) * (1 + e.EXResP) + e.FXRes);
 
         //元素抗性
         FireRes = Mathf.RoundToInt((b.FireRes + e.EXFireResF) * (1 + e.EXFireResP) + e.FXFireRes);
@@ -513,9 +513,9 @@ public class ActorPropertiesFinal : MonoBehaviour
         BlkFix = Mathf.RoundToInt((b.BlkFix + e.EXBlkFixF) * (1 + e.EXBlkFixP) + e.FXBlkFix);
         BlkPer = (b.BlkPer + e.EXBlkPerF) * (1 + e.EXBlkPerP) + e.FXBlkPer;
         //闪避
-        Eva = (b.Eva + e.EXEvaF + (Dex * GameProperties.GetInstance.Eva_Per_Dex)) * (1 + e.EXEvaP) + e.FXEva;
+        Eva = (b.Eva + e.EXEvaF + (Dex * GameSettingManager.GetInstance.Eva_Per_Dex)) * (1 + e.EXEvaP) + e.FXEva;
         //坚韧
-        Tough = (b.Tough + e.EXToughF + (Vit * GameProperties.GetInstance.Tough_Per_Vit)) * (1 + e.EXToughP) + e.FXTough;
+        Tough = (b.Tough + e.EXToughF + (Vit * GameSettingManager.GetInstance.Tough_Per_Vit)) * (1 + e.EXToughP) + e.FXTough;
         //荆棘伤害
         Thorns = Mathf.RoundToInt((b.Thorns + e.EXThornsF) * (1 + e.EXThornsP) + e.FXThorns);
         //歧视减伤
@@ -526,12 +526,12 @@ public class ActorPropertiesFinal : MonoBehaviour
         //生命与能量--------------------------------------------------------------------------------------------------------------------------
 
         //生命最大值，先算属性值再算状态值
-        HpMax = Mathf.RoundToInt((b.HpMax + e.EXHpMaxF + (Vit * GameProperties.GetInstance.HpMax_Per_Vit)) * (1 + e.EXHpMaxP) + e.FXHpMax);
-        HpReg = (b.HpReg + e.EXHpRegF + (Vit * GameProperties.GetInstance.HpReg_Per_Vit) + (Spi * GameProperties.GetInstance.HpReg_Per_Spi)) * (1 + e.EXHpRegP) + e.FXHpReg;
+        HpMax = Mathf.RoundToInt((b.HpMax + e.EXHpMaxF + (Vit * GameSettingManager.GetInstance.HpMax_Per_Vit)) * (1 + e.EXHpMaxP) + e.FXHpMax);
+        HpReg = (b.HpReg + e.EXHpRegF + (Vit * GameSettingManager.GetInstance.HpReg_Per_Vit) + (Spi * GameSettingManager.GetInstance.HpReg_Per_Spi)) * (1 + e.EXHpRegP) + e.FXHpReg;
 
         //能量最大值，先算属性值再算状态值
         SpMax = Mathf.RoundToInt((b.SpMax + e.EXSpMaxF) * (1 + e.EXSpMaxP) + e.FXSpMax);
-        SpReg = (b.SpReg + e.EXSpRegF + (Spi * GameProperties.GetInstance.SpReg_Per_Spi)) * (1 + e.EXSpRegP) + e.FXSpReg;
+        SpReg = (b.SpReg + e.EXSpRegF + (Spi * GameSettingManager.GetInstance.SpReg_Per_Spi)) * (1 + e.EXSpRegP) + e.FXSpReg;
 
         //受治疗固定数值加成（技能，药剂和神符）
         HpReciFix = Mathf.RoundToInt((b.HpReciFix + e.EXHpReciFixF) * (1 + e.EXHpReciFixP) + e.FXHpReciFix);

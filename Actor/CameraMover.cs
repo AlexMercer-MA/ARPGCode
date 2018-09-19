@@ -27,7 +27,7 @@ public class CameraMover : MonoBehaviour
 
         if (GameObject.Find("GameSettings") != null)
         {
-            mouseSensitivity = GameSetting.GetInstance.mouseSensitivity;
+            mouseSensitivity = GameProgramOptions.GetInstance.mouseSensitivity;
         }
         else
         {

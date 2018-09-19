@@ -20,9 +20,7 @@ public class GameBasicSettingManager : MonoBehaviour {
         }
     }
     private float gravity = -9.8f;
-
-
-
+    
 }
 
 public enum LockDirection

@@ -54,7 +54,7 @@ public abstract class ActionBase : MonoBehaviour
      * 
      * OnActionStart中，设置：
      * 设置 bInProgress 
-     * ActionManager.bInAction
+     * ActorAction.bInAction
      * 
      * OnActionOver中，设置
      * 设置 actionTimeStamp通常会在 ActionOver中进行
@@ -91,7 +91,7 @@ public abstract class ActionBase : MonoBehaviour
         {
             //如果在 冷却阶段，需要持续向UI或其他发消息
             actionTimeStamp += deltaTime;
-            ActionManager.GetInstance.
+            ActorAction.GetInstance.
                 ActionCooldownUpdate();   //TODO
         }
         else
@@ -100,13 +100,13 @@ public abstract class ActionBase : MonoBehaviour
             switch (eProgress)
             {
                 case ActionProgressType.CHARGE:
-                    ActionManager.GetInstance.ActionChargeUpdate(actionChargeStamp);
+                    ActorAction.GetInstance.ActionChargeUpdate(actionChargeStamp);
                     break;
                 case ActionProgressType.SING:
-                    ActionManager.GetInstance.ActionSingUpdate(actionSingStamp);
+                    ActorAction.GetInstance.ActionSingUpdate(actionSingStamp);
                     break;
                 case ActionProgressType.CHANNEL:
-                    ActionManager.GetInstance.ActionChannelUpdate(actionChannelStamp);
+                    ActorAction.GetInstance.ActionChannelUpdate(actionChannelStamp);
                     break;
                 default:
                     break;
@@ -133,47 +133,47 @@ public abstract class ActionBase : MonoBehaviour
         if (!ActionPreCheckEnergy())
         {
             info.result = EActionPreCheckResult.EnergyCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
             return;
         }
 
         if (kpAfCost > 0 && !ActionPreCheckKpAf())
         {
             info.result = EActionPreCheckResult.KPAfCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
             return;
         }
 
         if (kpBfCost > 0 && !ActionPreCheckKpBf())
         {
             info.result = EActionPreCheckResult.KPBfCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
             return;
         }
 
         if (kpAiCost > 0 && !ActionPreCheckKpAi())
         {
             info.result = EActionPreCheckResult.KPAiCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
             return;
         }
 
         if (kpBiCost > 0 && !ActionPreCheckKpBi())
         {
             info.result = EActionPreCheckResult.KPBiCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
             return;
         }
 
         if (!ActionPreCheckCD())
         {
             info.result = EActionPreCheckResult.CDCheckFail;
-            ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
             return;
         }
 
         info.result = EActionPreCheckResult.Success;
-        ActionManager.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+        ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
 
         //PreCheck结束，进行下一步骤
         if (castType == ActionCastType.CHARGE)
@@ -204,7 +204,7 @@ public abstract class ActionBase : MonoBehaviour
         ActionChargeStartImplement();
         //anim.SetTrigger() 等等实现
         actionChargeInfo.chargeProgress = 0f;
-        ActionManager.GetInstance.ActionChargeStart(this, actionChargeInfo);
+        ActorAction.GetInstance.ActionChargeStart(this, actionChargeInfo);
     }
 
     // 3 ActionChargeUpdate
@@ -213,7 +213,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         actionChargeInfo.chargeProgress = process;
         ActionChargeUpdateImplement();
-        ActionManager.GetInstance.ActionChargeUpdate(this, actionChargeInfo);
+        ActorAction.GetInstance.ActionChargeUpdate(this, actionChargeInfo);
     }
 
     // 4 ActionChargeEnd
@@ -221,7 +221,7 @@ public abstract class ActionBase : MonoBehaviour
     public virtual void ActionChargeEnd()
     {
         ActionChargeEndImplement();
-        ActionManager.GetInstance.ActionChargeUpdate(this, actionChargeInfo);
+        ActorAction.GetInstance.ActionChargeUpdate(this, actionChargeInfo);
         //Charge结束，进行下一步骤
         ActionCastStart();
     }
@@ -234,7 +234,7 @@ public abstract class ActionBase : MonoBehaviour
         eProgress = ActionProgressType.SING;
         actionSingInfo.singProgress = 0f;
         ActionSingStartImplement();
-        ActionManager.GetInstance.ActionChargeStart(this, actionSingInfo);
+        ActorAction.GetInstance.ActionChargeStart(this, actionSingInfo);
     }
 
     // 6 ActionSingUpdate
@@ -243,14 +243,14 @@ public abstract class ActionBase : MonoBehaviour
     {
         actionSingInfo.singProgress = process;
         ActionSingUpdateImplement();
-        ActionManager.GetInstance.ActionChargeUpdate(this, actionSingInfo);
+        ActorAction.GetInstance.ActionChargeUpdate(this, actionSingInfo);
     }
 
     // 7 ActionSingEnd
     protected virtual void ActionSingEndImplement() { }             //在这里写具体实现的代码逻辑
     public virtual void ActionSingEnd()
     {
-        ActionManager.GetInstance.ActionChargeUpdate(this, actionSingInfo);
+        ActorAction.GetInstance.ActionChargeUpdate(this, actionSingInfo);
         ActionSingEndImplement();
         //Charge结束，进行下一步骤
         ActionCastStart();
@@ -262,7 +262,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         eProgress = ActionProgressType.CAST;
         ActionCastStartImplement();
-        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+        ActorAction.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 9 ActionCastLaunch (可能由脚本触发，也可以由Animator触发)
@@ -270,7 +270,7 @@ public abstract class ActionBase : MonoBehaviour
     public virtual void ActionCastLaunch()
     {
         ActionCastLaunchImplement();
-        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+        ActorAction.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 10 ActionCastEnd
@@ -278,7 +278,7 @@ public abstract class ActionBase : MonoBehaviour
     public virtual void ActionCastEnd()
     {
         ActionCastEndImplement();
-        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+        ActorAction.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 11 ActionChannelStart
@@ -287,7 +287,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         eProgress = ActionProgressType.CHANNEL;
         ActionChannelStartImplement();
-        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+        ActorAction.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 12 ActionChannelLaunch (可能由脚本触发，也可以由Animator触发)
@@ -295,7 +295,7 @@ public abstract class ActionBase : MonoBehaviour
     public virtual void ActionChannelLaunch()
     {
         ActionChannelLaunchImplement();
-        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+        ActorAction.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 13 ActionChannelUpdate
@@ -303,7 +303,7 @@ public abstract class ActionBase : MonoBehaviour
     public virtual void ActionChannelUpdate()
     {
         ActionChannelUpdateImplement();
-        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+        ActorAction.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 14 ActionChannelEnd
@@ -312,7 +312,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         eProgress = ActionProgressType.DEFAULT;
         ActionChannelEndImplement();
-        ActionManager.GetInstance.ActionCastStart(this, actionCastInfo);
+        ActorAction.GetInstance.ActionCastStart(this, actionCastInfo);
     }
 
     // 15 ActionEnd
@@ -321,7 +321,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         ActionEndImplement();
         actionEndInfo.endType = endType;
-        ActionManager.GetInstance.ActionEnd(this, actionEndInfo);
+        ActorAction.GetInstance.ActionEnd(this, actionEndInfo);
     }
 
 

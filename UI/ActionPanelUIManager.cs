@@ -28,7 +28,7 @@ public class ActionPanelUIManager : MonoBehaviour {
 
     private void Start()
     {
-        ActionManager.GetInstance.EvtActionPreCheck += OnActionPreCheck;
+        ActorAction.GetInstance.EvtActionPreCheck += OnActionPreCheck;
     }
 
     private void OnActionPreCheck(object obj,EventArgs e)

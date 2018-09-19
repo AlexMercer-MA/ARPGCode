@@ -25,5 +25,3 @@ public enum ActionKey
     Action_RMB,
     None,
 }
-
-public enum

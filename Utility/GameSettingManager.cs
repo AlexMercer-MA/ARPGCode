@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameProperties : MonoBehaviour
+public class GameSettingManager : MonoBehaviour
 {
-    public static GameProperties GetInstance { get; set; }
+    public static GameSettingManager GetInstance { get; set; }
+
+    public float GlobalGravity = 20f;
 
     //基础属性
     public float basic_MoveSpeed = 5f;//移动速度 = 5.0

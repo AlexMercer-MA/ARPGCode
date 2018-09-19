@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationEvent : MonoBehaviour
+public class ActorAnimation : MonoBehaviour
 {
     public Animator anim;
     public CharacterBehaviour characterBehaviour;
