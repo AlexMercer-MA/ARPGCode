@@ -27,7 +27,7 @@ public class Warrior_BasicAttack : ActionBase
     //    bInAction = true;
     //    skillTime = 0f;
     //    //扣除消耗
-    //    ActorPropertiesFinal.GetInstance.Sp -= energy * (1f - ActorPropertiesFinal.GetInstance.Cdr);
+    //    ActorProperty.GetInstance.Sp -= energy * (1f - ActorProperty.GetInstance.Cdr);
     //    //动画相关
     //    if (anim.GetBool("AttackHand") == false)
     //    {
@@ -61,7 +61,7 @@ public class Warrior_BasicAttack : ActionBase
     //    PlayerAudio.GetInstance.Whoosh();
 
     //    //设置攻击力
-    //    damage = Random.Range(ActorPropertiesFinal.GetInstance.PhyMeleeMin, ActorPropertiesFinal.GetInstance.PhyMeleeMax);
+    //    damage = Random.Range(ActorProperty.GetInstance.PhyMeleeMin, ActorProperty.GetInstance.PhyMeleeMax);
         
     //    //获得攻击目标
     //    Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, this.range);
@@ -80,7 +80,7 @@ public class Warrior_BasicAttack : ActionBase
     //                //造成伤害
     //                if (tempEnemyStatus != null)
     //                {
-    //                    tempEnemyStatus.TakePhysicalRangeDamage(Mathf.RoundToInt(damage), ActorPropertiesFinal.GetInstance.AmrPeneFix, ActorPropertiesFinal.GetInstance.AmrPenePer);
+    //                    tempEnemyStatus.TakePhysicalRangeDamage(Mathf.RoundToInt(damage), ActorProperty.GetInstance.AmrPeneFix, ActorProperty.GetInstance.AmrPenePer);
     //                }
     //            }
     //        }
@@ -89,7 +89,7 @@ public class Warrior_BasicAttack : ActionBase
     //    if (hitEnemy > 0)
     //    {
     //        //击中敌人就回复能量
-    //        ActorPropertiesFinal.GetInstance.Sp += generateSp;
+    //        ActorProperty.GetInstance.Sp += generateSp;
 
     //        //音效
     //        PlayerAudio.GetInstance.Hit();

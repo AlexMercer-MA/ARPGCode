@@ -14,6 +14,6 @@ public class UI_HPBar : MonoBehaviour
 
     void Update()
     {
-        rect.sizeDelta = new Vector2(300.0f * ActorPropertiesFinal.GetInstance.Hp / ActorPropertiesFinal.GetInstance.HpMax, 30.0f);
+        rect.sizeDelta = new Vector2(300.0f * ActorProperty.GetInstance.Hp / ActorProperty.GetInstance.HpMax, 30.0f);
     }
 }

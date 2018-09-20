@@ -7,15 +7,34 @@ using Guirao.UltimateTextDamage;
 //角色最终属性脚本：游戏中的所有涉及数值的信息都从PlayerPropertiesFinal获得
 //修改时机：帧刷新
 
-public class ActorPropertiesFinal : MonoBehaviour
+public enum EActorType
 {
-    public static ActorPropertiesFinal GetInstance { get; set; }
+    Player,
+    Npc,
+}
+
+public enum ERaceType
+{
+    HUMANOID,
+    MECHANIC,
+    UNDEAD,
+    BEAST,
+    DEMON,
+    ELEMENT,
+}
+
+public class ActorProperty : MonoBehaviour
+{
+    public static ActorProperty GetInstance { get; set; }
     public CharacterBehaviour characterBehaviour;
     public CharacterAction characterAttack;
     public UltimateTextDamageManager textManager;   //TODO 移动到UI类
-    public ActorPropertiesBase b;
-    public ActorPropertiesExtra e;
+    public ActorPropertiesBasic b;
+    public ActorPropertyExtra e;
     private bool isPropertiesChanged;
+
+    public EActorType Type { get; set; }
+    public ERaceType Race { get; set; }
 
     void Awake()
     {
@@ -27,8 +46,8 @@ public class ActorPropertiesFinal : MonoBehaviour
         //UpdateProperties ();
         FullHP();
         FullSP();
-        b = ActorPropertiesBase.GetInstance;
-        e = ActorPropertiesExtra.GetInstance;
+        b = ActorPropertiesBasic.GetInstance;
+        e = ActorPropertyExtra.GetInstance;
     }
 
     void Update()

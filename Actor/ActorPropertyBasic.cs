@@ -15,7 +15,7 @@ using UnityEngine;
  * 
  * */
 
-public class ActorPropertiesBase : MonoBehaviour
+public class ActorPropertyBasic : MonoBehaviour
 {
     
     //Awake先于Start，PlayerProperties先于PlayerPropertiesFinal实例化

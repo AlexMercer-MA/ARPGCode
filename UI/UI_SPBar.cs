@@ -14,6 +14,6 @@ public class UI_SPBar : MonoBehaviour
 
     void Update()
     {
-        rect.sizeDelta = new Vector2(300.0f * ActorPropertiesFinal.GetInstance.Sp / ActorPropertiesFinal.GetInstance.SpMax, 30.0f);
+        rect.sizeDelta = new Vector2(300.0f * ActorProperty.GetInstance.Sp / ActorProperty.GetInstance.SpMax, 30.0f);
     }
 }

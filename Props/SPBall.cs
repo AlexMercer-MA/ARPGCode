@@ -36,7 +36,7 @@ namespace MXX{
 				transform.Translate (moveSpeed*Vector3.forward*Time.deltaTime,Space.Self);
 				if (Vector3.Distance(target.transform.position,this.transform.position)<0.05f)
 				{
-					ActorPropertiesFinal.GetInstance.ChangeSP(0.5f);
+					ActorProperty.GetInstance.ChangeSP(0.5f);
 					Instantiate (dieParitcle,target.transform);
 					Destroy (this.gameObject);
 				}

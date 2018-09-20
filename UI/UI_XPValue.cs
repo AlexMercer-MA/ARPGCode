@@ -15,7 +15,7 @@ public class UI_XPValue : MonoBehaviour
     //TODO 改为事件触发
     void Update()
     {
-        text.text = ActorPropertiesBase.GetInstance.Experience + "/" + GameSettingManager.GetInstance.UpgradeExperience[ActorPropertiesBase.GetInstance.Level];
+        text.text = ActorPropertiesBasic.GetInstance.Experience + "/" + GameSettingManager.GetInstance.UpgradeExperience[ActorPropertiesBasic.GetInstance.Level];
     }
 }
 

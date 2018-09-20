@@ -42,7 +42,7 @@ namespace MXX
 		//		skillTime += Time.deltaTime;
 		//	}
 
-		//	if (ActorPropertiesFinal.GetInstance.IsDead)
+		//	if (ActorProperty.GetInstance.IsDead)
 		//	{
 		//		isPrepare = false;
 		//		isDamage = false;
@@ -62,7 +62,7 @@ namespace MXX
 				
 		//		fillAmount += 1f * Time.deltaTime;
 				
-		//		if (Input.GetMouseButtonUp(1)&&CharacterBehaviour.GetInstace.bCanControl&&!ActorPropertiesFinal.GetInstance.IsDead)
+		//		if (Input.GetMouseButtonUp(1)&&CharacterBehaviour.GetInstace.bCanControl&&!ActorProperty.GetInstance.IsDead)
 		//		{
 		//			isPrepare = false;
 		//			isDamage = true;
@@ -89,11 +89,11 @@ namespace MXX
 		//	bInAction = true;
 		//	skillTime = 0f;	
 		//	//扣除消耗
-		//	ActorPropertiesFinal.GetInstance.Sp -= energy * (1f-ActorPropertiesFinal.GetInstance.Csr);
+		//	ActorProperty.GetInstance.Sp -= energy * (1f-ActorProperty.GetInstance.Csr);
 		//	//初始化攻击力和速度
-		//	damage = ActorPropertiesFinal.GetInstance.PhyMelee*1f;
-		//	damageDelta = ActorPropertiesFinal.GetInstance.PhyMelee * 2f;
-		//	damageMax =  ActorPropertiesFinal.GetInstance.PhyMelee * 3f;
+		//	damage = ActorProperty.GetInstance.PhyMelee*1f;
+		//	damageDelta = ActorProperty.GetInstance.PhyMelee * 2f;
+		//	damageMax =  ActorProperty.GetInstance.PhyMelee * 3f;
 		//	bInActionSpeed = 0.5f;
 
 		//	//先选择哪一种技能动画在setTrigger
@@ -124,7 +124,7 @@ namespace MXX
 		//		if (hitColliders[i].CompareTag("Enemy")&&!targetGroup.Contains(hitColliders[i].gameObject))
 		//		{
 		//			EnemyProperties tempEnemyStatus = hitColliders [i].GetComponent<EnemyProperties> ();
-		//			tempEnemyStatus.TakePhysicalRangeDamage (Mathf.RoundToInt(damage),ActorPropertiesFinal.GetInstance.AmrPeneFix,ActorPropertiesFinal.GetInstance.AmrPenePer);
+		//			tempEnemyStatus.TakePhysicalRangeDamage (Mathf.RoundToInt(damage),ActorProperty.GetInstance.AmrPeneFix,ActorProperty.GetInstance.AmrPenePer);
 		//			targetGroup.Add (hitColliders[i].gameObject);
 		//			Debug.Log (hitColliders[i].transform.name);
 

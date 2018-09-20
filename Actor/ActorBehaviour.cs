@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public abstract class ActorBehaviour : MonoBehaviour
 {
-    public ActorMain ActorMain { get; set; }        //Actor主控制
-
     public bool IsAlive { get; set; }               //是否存活
     public bool IsInvernable { get; set; }          //无敌，不可被杀死，最小HP_int为1
 
@@ -32,7 +29,7 @@ public abstract class ActorBehaviour : MonoBehaviour
     public float JumpForce { get; set; }            //跳跃力
     
     public abstract void UpdateBehaviour();         //更新方法
-
+    
     public void SetCanJump(bool b)
     {
         CanJump = b;

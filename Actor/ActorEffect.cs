@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterEffect : MonoBehaviour {
+public class ActorEffect : MonoBehaviour {
     
     //一个Dictionary 存储玩家身上所有的EffectGroup 相当于管理器
     // 根据ID 存储一个EffectGroup

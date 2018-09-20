@@ -430,7 +430,7 @@ public class CharacterBehaviour : MonoBehaviour
     void Move()
     {
         //水平面方向速度
-        flatMove = ((Mathf.Abs(V) + Mathf.Abs(H)) * transform.TransformDirection(Vector3.forward)).normalized * ActorPropertiesBase.GetInstance.Spd;//保证两个方向键一起按的时候，速度不会超过1
+        flatMove = ((Mathf.Abs(V) + Mathf.Abs(H)) * transform.TransformDirection(Vector3.forward)).normalized * ActorPropertiesBasic.GetInstance.Spd;//保证两个方向键一起按的时候，速度不会超过1
                                                                                                                                                         //改变animator fSpeed
         anim.SetFloat("fSpeed", flatMove.magnitude);
         //总速度向量
@@ -447,7 +447,7 @@ public class CharacterBehaviour : MonoBehaviour
         }
         else
         {
-            flatMove = transform.forward * ActorPropertiesFinal.GetInstance.Spd * lockMoveSpeedModifier;
+            flatMove = transform.forward * ActorProperty.GetInstance.Spd * lockMoveSpeedModifier;
         }
         //改变animator fSpeed
         anim.SetFloat("fSpeed", flatMove.magnitude);

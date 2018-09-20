@@ -34,7 +34,7 @@ namespace MXX
         //		bInAction = true;
         //		skillTime = 0f;
         //		//扣除消耗
-        //		ActorPropertiesFinal.GetInstance.Sp -= energy * (1f-ActorPropertiesFinal.GetInstance.Csr);
+        //		ActorProperty.GetInstance.Sp -= energy * (1f-ActorProperty.GetInstance.Csr);
         //		//先选择哪一种技能动画在setTrigger
         //		anim.SetInteger("SkillNum",2);
         //		anim.SetTrigger ("Skill");
@@ -62,7 +62,7 @@ namespace MXX
         //	public override void SphereDetect()
         //	{
         //		//设置攻击力
-        //		damage = ActorPropertiesFinal.GetInstance.PhyMelee*4f;
+        //		damage = ActorProperty.GetInstance.PhyMelee*4f;
 
         //		//音效
         //		PlayerAudio.GetInstance.Crash ();
@@ -74,7 +74,7 @@ namespace MXX
         //			if (hitColliders[i].CompareTag("Enemy"))
         //			{
         //				EnemyProperties tempEnemyStatus = hitColliders [i].GetComponent<EnemyProperties> ();
-        //				tempEnemyStatus.TakePhysicalRangeDamage (Mathf.RoundToInt(damage),ActorPropertiesFinal.GetInstance.AmrPeneFix,ActorPropertiesFinal.GetInstance.AmrPenePer);
+        //				tempEnemyStatus.TakePhysicalRangeDamage (Mathf.RoundToInt(damage),ActorProperty.GetInstance.AmrPeneFix,ActorProperty.GetInstance.AmrPenePer);
         //				Debug.Log (hitColliders[i].transform.name);
         //			}
         //		}

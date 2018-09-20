@@ -5,7 +5,7 @@ using UnityEngine;
 //角色额外属性脚本：玩家获得物品和使用技能时，对属性的修改在这里计算
 //修改时机：穿上物品，卸下物品，使用技能，技能结束，点天赋，使用永久性技能时
 
-public class ActorPropertiesExtra : MonoBehaviour {
+public class ActorPropertyExtra : MonoBehaviour {
     
     //规则：慎用FX Final_extra，它不受百分比加成
     //Final = (Base + EXFix) * (1 + EXPer) + FXFix

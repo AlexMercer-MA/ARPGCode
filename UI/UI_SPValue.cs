@@ -14,6 +14,6 @@ public class UI_SPValue : MonoBehaviour
 
     void Update()
     {
-        text.text = ActorPropertiesFinal.GetInstance.Sp_Int + "/" + ActorPropertiesFinal.GetInstance.SpMax;
+        text.text = ActorProperty.GetInstance.Sp_Int + "/" + ActorProperty.GetInstance.SpMax;
     }
 }

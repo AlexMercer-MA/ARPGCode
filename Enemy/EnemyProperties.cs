@@ -93,7 +93,7 @@ public class EnemyProperties : MonoBehaviour
         bool isCrit = CheckPhyMeleeCrit();
         if (isCrit)
         {
-            damage *= Mathf.RoundToInt(ActorPropertiesFinal.GetInstance.CriPhyMeleeDmg);
+            damage *= Mathf.RoundToInt(ActorProperty.GetInstance.CriPhyMeleeDmg);
             GameObject.Instantiate(critcalHit, enemyBehaviour.hitPoint.transform);
         }
         GameObject.Instantiate(hit, enemyBehaviour.hitPoint.transform);
@@ -124,7 +124,7 @@ public class EnemyProperties : MonoBehaviour
         bool isCrit = CheckPhyMeleeCrit();
         if (isCrit)
         {
-            damage *= Mathf.RoundToInt(ActorPropertiesFinal.GetInstance.CriPhyMeleeDmg);
+            damage *= Mathf.RoundToInt(ActorProperty.GetInstance.CriPhyMeleeDmg);
             GameObject.Instantiate(critcalHit, enemyBehaviour.hitPoint.transform);
         }
         GameObject.Instantiate(hit, enemyBehaviour.hitPoint.transform);
@@ -155,7 +155,7 @@ public class EnemyProperties : MonoBehaviour
         bool isCrit = CheckMgiCrit();
         if (isCrit)
         {
-            damage *= Mathf.RoundToInt(ActorPropertiesFinal.GetInstance.CriMgiDmg);
+            damage *= Mathf.RoundToInt(ActorProperty.GetInstance.CriMgiDmg);
             GameObject.Instantiate(critcalHit, enemyBehaviour.hitPoint.transform);
         }
         GameObject.Instantiate(hit, enemyBehaviour.hitPoint.transform);
@@ -198,7 +198,7 @@ public class EnemyProperties : MonoBehaviour
 
     bool CheckPhyMeleeCrit()
     {
-        if (Random.Range(0f, 1f) <= ActorPropertiesFinal.GetInstance.CriPhyMeleeCha)
+        if (Random.Range(0f, 1f) <= ActorProperty.GetInstance.CriPhyMeleeCha)
         {
             return true;
         }
@@ -210,7 +210,7 @@ public class EnemyProperties : MonoBehaviour
 
     bool CheckPhyRangeCrit()
     {
-        if (Random.Range(0f, 1f) <= ActorPropertiesFinal.GetInstance.CriPhyRangeCha)
+        if (Random.Range(0f, 1f) <= ActorProperty.GetInstance.CriPhyRangeCha)
         {
             return true;
         }
@@ -222,7 +222,7 @@ public class EnemyProperties : MonoBehaviour
 
     bool CheckMgiCrit()
     {
-        if (Random.Range(0f, 1f) <= ActorPropertiesFinal.GetInstance.CriMgiCha)
+        if (Random.Range(0f, 1f) <= ActorProperty.GetInstance.CriMgiCha)
         {
             return true;
         }

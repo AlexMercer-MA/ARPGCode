@@ -36,7 +36,7 @@ public class Warrior_Skill01_WindMill : ActionBase
     //    bInAction = true;
     //    skillTime = 0f;
     //    //扣除消耗
-    //    ActorPropertiesFinal.GetInstance.Sp -= energy * (1f - ActorPropertiesFinal.GetInstance.Csr);
+    //    ActorProperty.GetInstance.Sp -= energy * (1f - ActorProperty.GetInstance.Csr);
     //    //先选择哪一种技能动画在setTrigger
     //    anim.SetInteger("SkillNum", 1);
     //    anim.SetTrigger("Skill");
@@ -51,7 +51,7 @@ public class Warrior_Skill01_WindMill : ActionBase
     //public override void SphereDetect()
     //{
     //    //设置攻击力
-    //    damage = ActorPropertiesFinal.GetInstance.PhyMelee * 0.5f;
+    //    damage = ActorProperty.GetInstance.PhyMelee * 0.5f;
 
     //    Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, this.range);
 
@@ -60,7 +60,7 @@ public class Warrior_Skill01_WindMill : ActionBase
     //        if (hitColliders[i].CompareTag("Enemy"))
     //        {
     //            EnemyProperties tempEnemyStatus = hitColliders[i].GetComponent<EnemyProperties>();
-    //            tempEnemyStatus.TakePhysicalRangeDamage(Mathf.RoundToInt(damage), ActorPropertiesFinal.GetInstance.AmrPeneFix, ActorPropertiesFinal.GetInstance.AmrPenePer);
+    //            tempEnemyStatus.TakePhysicalRangeDamage(Mathf.RoundToInt(damage), ActorProperty.GetInstance.AmrPeneFix, ActorProperty.GetInstance.AmrPenePer);
     //            Debug.Log(hitColliders[i].transform.name);
 
     //            //音效

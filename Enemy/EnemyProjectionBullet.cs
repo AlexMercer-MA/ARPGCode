@@ -25,7 +25,7 @@ public class EnemyProjectionBullet : EnemyProjection
         {
             if (physicalDamage > 0f || magicDamage > 0f)
             {
-                isHit = ActorPropertiesFinal.GetInstance.TakeDamage(physicalDamage, magicDamage, origin);
+                isHit = ActorProperty.GetInstance.TakeDamage(physicalDamage, magicDamage, origin);
             }
             if (isHit)
             {

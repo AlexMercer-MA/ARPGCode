@@ -23,37 +23,37 @@ public class PanelUI_AttributePanel_Btn : MonoBehaviour
             switch (btnType)
             {
                 case AttributePanel_ButtonType.Str:
-                    ActorPropertiesBase.GetInstance.Str++;
+                    ActorPropertiesBasic.GetInstance.Str++;
                     AttributePanelManager.GetInstance.attributePoints--;
                     AttributePanelManager.GetInstance.OnAttributePointsChange();
                     break;
 
                 case AttributePanel_ButtonType.Dex:
-                    ActorPropertiesBase.GetInstance.Dex++;
+                    ActorPropertiesBasic.GetInstance.Dex++;
                     AttributePanelManager.GetInstance.attributePoints--;
                     AttributePanelManager.GetInstance.OnAttributePointsChange();
                     break;
 
                 case AttributePanel_ButtonType.Int:
-                    ActorPropertiesBase.GetInstance.Int++;
+                    ActorPropertiesBasic.GetInstance.Int++;
                     AttributePanelManager.GetInstance.attributePoints--;
                     AttributePanelManager.GetInstance.OnAttributePointsChange();
                     break;
 
                 case AttributePanel_ButtonType.Spi:
-                    ActorPropertiesBase.GetInstance.Spi++;
+                    ActorPropertiesBasic.GetInstance.Spi++;
                     AttributePanelManager.GetInstance.attributePoints--;
                     AttributePanelManager.GetInstance.OnAttributePointsChange();
                     break;
 
                 case AttributePanel_ButtonType.Cun:
-                    ActorPropertiesBase.GetInstance.Cun++;
+                    ActorPropertiesBasic.GetInstance.Cun++;
                     AttributePanelManager.GetInstance.attributePoints--;
                     AttributePanelManager.GetInstance.OnAttributePointsChange();
                     break;
 
                 case AttributePanel_ButtonType.Vit:
-                    ActorPropertiesBase.GetInstance.Vit++;
+                    ActorPropertiesBasic.GetInstance.Vit++;
                     AttributePanelManager.GetInstance.attributePoints--;
                     AttributePanelManager.GetInstance.OnAttributePointsChange();
                     break;

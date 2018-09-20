@@ -14,6 +14,6 @@ public class UI_XPBar : MonoBehaviour
 
     void Update()
     {
-        rect.sizeDelta = new Vector2(300.0f * ActorPropertiesBase.GetInstance.Experience / GameSettingManager.GetInstance.UpgradeExperience[ActorPropertiesBase.GetInstance.Level], 12f);
+        rect.sizeDelta = new Vector2(300.0f * ActorPropertiesBasic.GetInstance.Experience / GameSettingManager.GetInstance.UpgradeExperience[ActorPropertiesBasic.GetInstance.Level], 12f);
     }
 }

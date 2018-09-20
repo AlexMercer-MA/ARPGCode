@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPropertiesFinal : ActorPropertiesFinal
+public class PlayerProperty : ActorProperty
 {
-    public PlayerPropertiesFinal Instance
+    public PlayerProperty Instance
     {
         get
         {
@@ -16,7 +16,7 @@ public class PlayerPropertiesFinal : ActorPropertiesFinal
             instance = value;
         }
     }
-    private PlayerPropertiesFinal instance;
+    private PlayerProperty instance;
 
     private void Awake()
     {
@@ -30,8 +30,7 @@ public class PlayerPropertiesFinal : ActorPropertiesFinal
 
     //可装备物品（需要用脚本初始化）  Player类Only
     public short canSingleHandSword;//能装备单手剑
-
-
+    
     //TODO 其他武器
     //TODO 其他武器
     //TODO 其他武器

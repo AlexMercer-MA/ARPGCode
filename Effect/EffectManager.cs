@@ -66,7 +66,7 @@ public class EffectManager : MonoBehaviour
 
     /*
     //Function1 添加 ID 效果 ，添加 1 层，返回是否成功
-    public bool AddEffect(int ID, CharacterEffect owner, CharacterEffect master)
+    public bool AddEffect(int ID, ActorEffect owner, ActorEffect master)
     {
         //判断传入ID是否有效
         if (!effectDic.ContainsKey(ID))
@@ -79,7 +79,7 @@ public class EffectManager : MonoBehaviour
     }
 
     //Function2 添加 ID 效果，添加 N 层，返回是否成功
-    public bool AddEffect(int ID, int stackNum, CharacterEffect owner, CharacterEffect master)
+    public bool AddEffect(int ID, int stackNum, ActorEffect owner, ActorEffect master)
     {
         //判断传入ID是否有效
         if (!effectDic.ContainsKey(ID))

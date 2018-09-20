@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPropertiesBase : ActorPropertiesBase
+public class PlayerPropertyBasic : ActorPropertyBasic
 {
-
-    public PlayerPropertiesBase Instance
+    public PlayerPropertyBasic Instance
     {
         get
         {
@@ -17,7 +16,7 @@ public class PlayerPropertiesBase : ActorPropertiesBase
             instance = value;
         }
     }
-    private PlayerPropertiesBase instance;
+    private PlayerPropertyBasic instance;
 
     public ePlayerClassType playerProfession;//玩家职业
     public int Experience { get { return experience; } set { experience = Mathf.Clamp(value, 0, value); } }//经验值（总是大于等于0）
@@ -60,9 +59,9 @@ public class PlayerPropertiesBase : ActorPropertiesBase
             Vit += 2;
             Spi += 2;
 
-            ActorPropertiesFinal.GetInstance.UpdateProperties();
-            ActorPropertiesFinal.GetInstance.FullHP();
-            ActorPropertiesFinal.GetInstance.FullSP();
+            ActorProperty.GetInstance.UpdateProperties();
+            ActorProperty.GetInstance.FullHP();
+            ActorProperty.GetInstance.FullSP();
             Instantiate(CharacterBehaviour.GetInstace.upgrade, this.transform);
         }
     }

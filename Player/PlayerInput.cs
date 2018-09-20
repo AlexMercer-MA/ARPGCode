@@ -2,26 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour {
-    
-    public static ActorBehaviour GetInstace { get { return instance; } }
-    private static ActorBehaviour instance;
+public class PlayerInput : MonoBehaviour
+{
+    public float H { get; set; }
+    public float V { get; set; }
+    public bool Jump { get; set; }
+    public ActionKey ActionKey { get; set; }
 
-    // -------------------------- 玩家输入PlayerInput --------------------------
-    //玩家按下的方向键
-    bool right = false;
-    bool left = false;
-    bool forward = false;
-    bool backward = false;
-    float H;               //水平轴值输入
-    float V;               //垂直轴值输入
-    //玩家按下的动作键，同一时间仅一个有效值
-    ActionKey actionKey;   //是否进行动作按键，有优先级(Tab>Shift>Ctrl>4>3>2>1>R>E>Q>RMB>LMB)
-    [SerializeField]
-    bool jump;             //是否进行跳跃按键
-
-    // 玩家输入 Player Input
-    void PlayerInput()
+    void Awake()
     {
         //Axis 轴值输入
         H = Input.GetAxisRaw("Horizontal");
@@ -56,21 +44,4 @@ public class InputManager : MonoBehaviour {
         else
             actionKey = ActionKey.None;
     }
-}
-
-public enum ActionKey
-{
-    Action_Q,
-    Action_E,
-    Action_R,
-    Action_1,
-    Action_2,
-    Action_3,
-    Action_4,
-    Action_Shift,
-    Action_Ctrl,
-    Action_Tab,
-    Action_LMB,
-    Action_RMB,
-    None,
 }

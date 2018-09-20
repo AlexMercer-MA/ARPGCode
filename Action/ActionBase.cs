@@ -325,10 +325,10 @@ public abstract class ActionBase : MonoBehaviour
     }
 
 
-
+    #region 各种Precheck function 预检查方法
     bool ActionPreCheckEnergy()                //检查能量消耗
     {
-        if (ActorPropertiesFinal.GetInstance.Sp >= energyCost * ActorPropertiesFinal.GetInstance.Csr_Action)
+        if (ActorProperty.GetInstance.Sp >= energyCost * ActorProperty.GetInstance.Csr_Action)
         {
             return true;
         }
@@ -342,7 +342,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         if (!(kpAfCost > 0))
             return true;
-        if (kpAfCost <= ActorPropertiesFinal.GetInstance.KPA_f)
+        if (kpAfCost <= ActorProperty.GetInstance.KPA_f)
             return true;
         return false;
     }
@@ -351,7 +351,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         if (!(kpBfCost > 0))
             return true;
-        if (kpBfCost <= ActorPropertiesFinal.GetInstance.KPB_f)
+        if (kpBfCost <= ActorProperty.GetInstance.KPB_f)
             return true;
         return false;
     }
@@ -360,7 +360,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         if (kpAiCost <= 0)
             return true;
-        if (kpAiCost <= ActorPropertiesFinal.GetInstance.KPA_i)
+        if (kpAiCost <= ActorProperty.GetInstance.KPA_i)
             return true;
         return false;
     }
@@ -369,14 +369,14 @@ public abstract class ActionBase : MonoBehaviour
     {
         if (kpBiCost <= 0)
             return true;
-        if (kpBiCost <= ActorPropertiesFinal.GetInstance.KPB_i)
+        if (kpBiCost <= ActorProperty.GetInstance.KPB_i)
             return true;
         return false;
     }
 
     bool ActionPreCheckCD()                    //检查冷却时间
     {
-        if (actionTimeStamp >= coolDown * ActorPropertiesFinal.GetInstance.Cdr_Action)
+        if (actionTimeStamp >= coolDown * ActorProperty.GetInstance.Cdr_Action)
         {
             return true;
         }
@@ -385,6 +385,9 @@ public abstract class ActionBase : MonoBehaviour
             return false;
         }
     }
+    #endregion
+
+
 
 }
 

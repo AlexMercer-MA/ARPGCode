@@ -57,7 +57,7 @@ public class EnemyBehaviour : MonoBehaviour
     void Update()
     {
         //玩家死亡 怪物停止行动
-        if (ActorPropertiesFinal.GetInstance.IsDead)
+        if (ActorProperty.GetInstance.IsDead)
         {
             state = EEnemyState.Idle;
             if (!anim.GetBool("PlayerDead"))
@@ -237,7 +237,7 @@ public class EnemyBehaviour : MonoBehaviour
         GameObject.Instantiate(enemyProperties.hit, gameObject.transform);
         enemyDropList.Drop();                                                                   //物品掉落
         SceneSetting.GetInstance.MinusEnemy();                                                 //敌人数量 -1
-        ActorPropertiesBase.GetInstance.ChangeExperience(enemyProperties.exp);                 //让玩家获得经验值
+        ActorPropertiesBasic.GetInstance.ChangeExperience(enemyProperties.exp);                 //让玩家获得经验值
 
         Destroy(this);
         Destroy(this.cc);
@@ -307,7 +307,7 @@ public class EnemyBehaviour : MonoBehaviour
                     //造成伤害
                     if (enemyProperties.atk > 0 || enemyProperties.mgk > 0)
                     {
-                        if (ActorPropertiesFinal.GetInstance.TakeDamage(enemyProperties.atk, enemyProperties.mgk, this.gameObject))
+                        if (ActorProperty.GetInstance.TakeDamage(enemyProperties.atk, enemyProperties.mgk, this.gameObject))
                         {
                             //音效
                             enemyAudio.Hit();
