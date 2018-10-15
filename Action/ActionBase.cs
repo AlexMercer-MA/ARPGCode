@@ -122,6 +122,7 @@ public abstract class ActionBase : MonoBehaviour
 
     // --------------------------------- Action 生命周期方法 ---------------------------------
     // 1  ActionPreCheck
+    public event EventHandler EvtActionPreCheck;
     protected virtual void ActionPreCheckImplement() { }         //在这里写具体实现的代码逻辑
     public virtual void ActionPreCheck(ActionBase action, ActionPreCheckInfo info)
     {
@@ -133,47 +134,47 @@ public abstract class ActionBase : MonoBehaviour
         if (!ActionPreCheckEnergy())
         {
             info.result = EActionPreCheckResult.EnergyCheckFail;
-            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            EvtActionPreCheck(this, info);
             return;
         }
 
         if (kpAfCost > 0 && !ActionPreCheckKpAf())
         {
             info.result = EActionPreCheckResult.KPAfCheckFail;
-            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            EvtActionPreCheck(this, info);
             return;
         }
 
         if (kpBfCost > 0 && !ActionPreCheckKpBf())
         {
             info.result = EActionPreCheckResult.KPBfCheckFail;
-            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            EvtActionPreCheck(this, info);
             return;
         }
 
         if (kpAiCost > 0 && !ActionPreCheckKpAi())
         {
             info.result = EActionPreCheckResult.KPAiCheckFail;
-            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            EvtActionPreCheck(this, info);
             return;
         }
 
         if (kpBiCost > 0 && !ActionPreCheckKpBi())
         {
             info.result = EActionPreCheckResult.KPBiCheckFail;
-            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            EvtActionPreCheck(this, info);
             return;
         }
 
         if (!ActionPreCheckCD())
         {
             info.result = EActionPreCheckResult.CDCheckFail;
-            ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+            EvtActionPreCheck(this, info);
             return;
         }
 
         info.result = EActionPreCheckResult.Success;
-        ActorAction.GetInstance.ActionPreCheck(this, actionPreCheckInfo);
+        EvtActionPreCheck(this, info);
 
         //PreCheck结束，进行下一步骤
         if (castType == ActionCastType.CHARGE)
@@ -195,38 +196,41 @@ public abstract class ActionBase : MonoBehaviour
     }
 
     // 2 ActionChargeStart
+    public event EventHandler EvtActionChargeStart;
     protected virtual void ActionChargeStartImplement() { }         //在这里写具体实现的代码逻辑
     public void ActionChargeStart()
     {
         //设置action状态
         eProgress = ActionProgressType.CHARGE;
         //开始播放动画
-        ActionChargeStartImplement();
-        //anim.SetTrigger() 等等实现
+        ActionChargeStartImplement(); //anim.SetTrigger() 等等实现
         actionChargeInfo.chargeProgress = 0f;
-        ActorAction.GetInstance.ActionChargeStart(this, actionChargeInfo);
+        EvtActionChargeStart(this, actionChargeInfo);
     }
 
     // 3 ActionChargeUpdate
+    public event EventHandler EvtActionChargeUpdate;
     protected virtual void ActionChargeUpdateImplement() { }        //在这里写具体实现的代码逻辑
     public virtual void ActionChargeUpdate(float process)
     {
         actionChargeInfo.chargeProgress = process;
         ActionChargeUpdateImplement();
-        ActorAction.GetInstance.ActionChargeUpdate(this, actionChargeInfo);
+        EvtActionChargeUpdate(this, actionChargeInfo);
     }
 
     // 4 ActionChargeEnd
+    public event EventHandler EvtActionChargeEnd;
     protected virtual void ActionChargeEndImplement() { }           //在这里写具体实现的代码逻辑
     public virtual void ActionChargeEnd()
     {
         ActionChargeEndImplement();
-        ActorAction.GetInstance.ActionChargeUpdate(this, actionChargeInfo);
+        EvtActionChargeEnd(this, actionChargeInfo);
         //Charge结束，进行下一步骤
         ActionCastStart();
     }
 
     // 5 ActionSingStart
+    public event EventHandler EvtActionSingStart;
     protected virtual void ActionSingStartImplement() { }           //在这里写具体实现的代码逻辑
     public virtual void ActionSingStart()
     {
@@ -234,16 +238,17 @@ public abstract class ActionBase : MonoBehaviour
         eProgress = ActionProgressType.SING;
         actionSingInfo.singProgress = 0f;
         ActionSingStartImplement();
-        ActorAction.GetInstance.ActionChargeStart(this, actionSingInfo);
+        EvtActionSingStart(this, actionSingInfo);
     }
 
     // 6 ActionSingUpdate
+    public event EventHandler EvtActionSingUpdate;
     protected virtual void ActionSingUpdateImplement() { }          //在这里写具体实现的代码逻辑
     public virtual void ActionSingUpdate(float process)
     {
         actionSingInfo.singProgress = process;
         ActionSingUpdateImplement();
-        ActorAction.GetInstance.ActionChargeUpdate(this, actionSingInfo);
+        EvtActionSingUpdate(this, actionSingInfo);
     }
 
     // 7 ActionSingEnd

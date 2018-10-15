@@ -7,9 +7,10 @@ public class PlayerBehaviour : ActorBehaviour
     private PlayerMain PlayerMain;
 
     public bool CanControl { get; set; }
-    public float RotateLerp { get; set; }           //角色转向平滑程度  默认10f
     public bool IsUIMode { get; set; }
 
+    private PlayerAction PlayerAction { get; set; }
+    private CharacterController CharacterController { get; set; }
     private PlayerAnimation PlayerAnimation { get; set; }
 
     private void Initialized(PlayerMain PlayerMain)
@@ -62,14 +63,17 @@ public class PlayerBehaviour : ActorBehaviour
         
     }
     
+    //立刻转向以相机为基准的某个角度
     public void SetLockTurnCamForwardAngle(float angle)
     {
 
     }
 
+    //立刻转向以相机为基准的某个角度并锁定
     public void SetLockTurnCamForwardAngleAndLock(float angle)
     {
-
+        SetLockTurnCamForwardAngle();
+        IsLockRotate = true;
     }
     
 
@@ -77,18 +81,18 @@ public class PlayerBehaviour : ActorBehaviour
     {
         float globalGravity = GameSettingManager.GetInstance.GlobalGravity;
 
-        //物理下落速度 gSpeed
+        //物理下落速度 GSpeed
         //垂直方向速度,无论什么状态 都应该受到重力影响
-        if (PlayerMain.CharacterController.isGrounded)
+        if (CharacterController.isGrounded)
         {
             Debug.Log("Gravity_Ground");
             if (IsUseCustomGravity)
             {
-                gSpeed = Mathf.Max(-CustomGravity, gSpeed - CustomGravity * Time.deltaTime);
+                GSpeed = Mathf.Max(-CustomGravity, GSpeed - CustomGravity * Time.deltaTime);
             }
             else
             {
-                gSpeed = Mathf.Max(-globalGravity, gSpeed - globalGravity * Time.deltaTime);
+                GSpeed = Mathf.Max(-globalGravity, GSpeed - globalGravity * Time.deltaTime);
             }
             // 如果上一帧还在空中，说明这一帧着陆
             if (!IsGrounded)
@@ -105,15 +109,15 @@ public class PlayerBehaviour : ActorBehaviour
             Debug.Log("Gravity_Fall");
             if (IsUseCustomGravity)
             {
-                gSpeed -= CustomGravity * Time.deltaTime;
+                GSpeed -= CustomGravity * Time.deltaTime;
             }
             else
             {
-                gSpeed -= globalGravity * Time.deltaTime;
+                GSpeed -= globalGravity * Time.deltaTime;
             }
             IsGrounded = false;
             //动画相关
-            PlayerAnimation.SetFloat("gSpeed", gSpeed);
+            PlayerAnimation.SetFloat("gSpeed", GSpeed);
             PlayerAnimation.SetBool("isGrounded", false);
         }
     }
@@ -123,28 +127,28 @@ public class PlayerBehaviour : ActorBehaviour
         if (!InputManager.Jump)
             return;
 
-        // 在地面跳跃 不用检查是否可以多段跳 w
+        // 在地面跳跃 不用检查是否可以多段跳
         if (groundCheck.groundCheckBool)
         {
-            if (Time.time > nextJumpTimeStamp && jumpNum < maxJumpNum)
+            if (Time.time > (JumpTimeStamp + jumpTimeInterval) && JumpCountNum < MultiJumpCountLimit)
             {
-                anim.SetTrigger("Jump");
-                gSpeed = jumpForce;
+                PlayerAnimation.SetTrigger("Jump");
+                GSpeed = JumpForce;
                 PlayerAudio.GetInstance.Jump();
-                nextJumpTimeStamp = Time.time + jumpTimeInterval;
-                jumpNum++;
+                JumpTimeStamp = Time.time;
+                JumpCountNum++;
             }
         }
         // 不在地面时 跳跃需要检查是否可以多段跳
         else if (bCanMultiJump)
         {
-            if (Time.time > nextJumpTimeStamp && jumpNum < maxJumpNum)
+            if (Time.time > (JumpTimeStamp + jumpTimeInterval) && JumpCountNum < MultiJumpCountLimit)
             {
-                anim.SetTrigger("Jump");
-                gSpeed = jumpForce;
+                PlayerAnimation.SetTrigger("Jump");
+                GSpeed = JumpForce;
                 PlayerAudio.GetInstance.Jump();
-                nextJumpTimeStamp = Time.time + jumpTimeInterval;
-                jumpNum++;
+                JumpTimeStamp = Time.time;
+                JumpCountNum++;
             }
         }
     }
@@ -153,41 +157,35 @@ public class PlayerBehaviour : ActorBehaviour
     {
         Debug.Log("Land");
         // 着陆时，重置跳跃次数
-        if (JumpNum > 0)
+        if (JumpCountNum > 0)
         {
-            JumpNum = 0;
+            JumpCountNum = 0;
         }
-        anim.SetFloat("gSpeed", 0);
-        anim.SetBool("isGrounded", true);
+        PlayerAnimation.SetFloat("gSpeed", 0);
+        PlayerAnimation.SetBool("isGrounded", true);
     }
 
     private void Move()
     {
         //水平面方向速度
-        flatMove = ((Mathf.Abs(V) + Mathf.Abs(H)) * transform.TransformDirection(Vector3.forward)).normalized * ActorPropertiesBasic.GetInstance.Spd;//保证两个方向键一起按的时候，速度不会超过1
-                                                                                                                                                    //改变animator fSpeed
-        anim.SetFloat("fSpeed", flatMove.magnitude);
+        FlatSpeed = ((Mathf.Abs(V) + Mathf.Abs(H)) * transform.TransformDirection(Vector3.forward)).normalized * ActorPropertiesBasic.GetInstance.Spd;//保证两个方向键一起按的时候，速度不会超过1
+        //改变animator fSpeed
+        anim.SetFloat("fSpeed", FlatSpeed.magnitude);
         //总速度向量
-        finalMove = (flatMove + new Vector3(0f, gSpeed, 0f));
-        characterController.Move(finalMove * Time.deltaTime);
+        FinalSpeed = (FlatSpeed + new Vector3(0f, GSpeed, 0f));
+        CharacterController.Move(FinalSpeed * Time.deltaTime);
     }
 
     //锁定 向角色前方移动
     private void LockMove()
     {
-        if (bUseLockMoveSpeed)
-        {
-            flatMove = transform.forward * lockMoveSpeedValue;
-        }
-        else
-        {
-            flatMove = transform.forward * ActorProperty.GetInstance.Spd * lockMoveSpeedModifier;
-        }
+        //水平速度
+        FlatSpeed = transform.forward * LockMoveSpeed;
         //改变animator fSpeed
-        anim.SetFloat("fSpeed", flatMove.magnitude);
+        anim.SetFloat("fSpeed", FlatSpeed.magnitude);
         //总速度向量
-        finalMove = (flatMove + new Vector3(0f, gSpeed, 0f));
-        characterController.Move(finalMove * Time.deltaTime);
+        FinalSpeed = (FlatSpeed + new Vector3(0f, GSpeed, 0f));
+        CharacterController.Move(FinalSpeed * Time.deltaTime);
     }
 
     private void Rotate()
@@ -255,18 +253,27 @@ public class PlayerBehaviour : ActorBehaviour
 
         if (forward || backward || left || right)
         {
-            playerAngle = Mathf.LerpAngle(playerAngle, targetAngle, rotateLerp * Time.deltaTime);
-            characterController.transform.rotation = Quaternion.Euler(new Vector3(0f, playerAngle, 0f));
+            CurrentAngle = Mathf.LerpAngle(CurrentAngle, TargetAngle, RotateLerp * Time.deltaTime);
+            CharacterController.transform.rotation = Quaternion.Euler(new Vector3(0f, CurrentAngle, 0f));
         }
     }
 
     private void LockRotate()
     {
-
+        CurrentAngle = LockTurnAngle;
+        TargetAngle = LockTurnAngle;
+        CharacterController.transform.rotation = Quaternion.Euler(new Vector3(0f, LockTurnAngle, 0f));
     }
 
     private void Action()
     {
-        ActionManager.Action();
+        PlayerAction.Action();
     }
+
+    public void ForceMove(Vector3 moveSpeed)
+    {
+        
+        CharacterController.Move(moveSpeed * Time.deltaTime);
+    }
+    
 }

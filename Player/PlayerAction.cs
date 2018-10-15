@@ -35,7 +35,7 @@ using UnityEngine;
  * 15EvtActionEnd
  */
 
-public class ActorAction : MonoBehaviour{
+public class PlayerAction : MonoBehaviour{
     
     public ActorMain actorMain;
 
@@ -74,20 +74,50 @@ public class ActorAction : MonoBehaviour{
         actionDic.Add(ActionKey.Action_Tab, action_Tab);
     }
 
-    //学到新技能之后
-    public abstract void InitAction(ActionKey key, ActionBase action);
-    public abstract void UpdateAction(ActionKey key, ActionBase action);
-    public abstract void UseAction(ActionKey key, ActionBase action);
+    //初始化技能，例如学到新技能之后
+    public void InitAction(ActionKey key, ActionBase action)
+    {
 
+    }
     
+    public void UpdateAction()
+    {
+        //更新技能CD
+        foreach (ActionBase action in actionDic.Values)
+        {
+            //没有设置技能就跳过
+            if (action == null) continue;
+            //更新所有已经激活的技能的CD （只有学习过的 ActionKey 位置的 Action 才被激活）
+            if (!action.isActive) continue;
+            //(内部处理) Action 没有被锁定CD，就更新CD
+            action.Refresh(Time.deltaTime);
+        }
+    }
 
+    public void UseAction(Actionkey actionkey)
+    {
+        //在UI模式 或 没有按键的时候， 则没有 Action 被释放
+        if (CharacterBehaviour.GetInstace.inUIMode || actionKey == ActionKey.None)
+        {
+            //复位所有UI(取消所有的高亮 ActionKey UI)
+            ActionPanelUIManager.GetInstance.ResetUI();
+            return;
+        }
 
-
+        //无论是否释放成功，都要设置高亮UI
+        ActionPanelUIManager.GetInstance.SetHighLightUI(actionKey);
+        //判断对应按键是否有技能 ActionBase 类
+        ActionBase action;
+        if (!actionDic.TryGetValue(actionKey, out action)) return;
+        //判断是否能使用技能
+        ActionPreCheckInfo info = new ActionPreCheckInfo(action, actor, actionKey);
+        action.ActionPreCheck(action, info);
+    }
 
     // 以下应该写在 ActionBase中
     // 以下应该写在 ActionBase中
     // 以下应该写在 ActionBase中
-
+    
     //1 EvtActionPreCheck
     //----------------------------------------------------------------------------------------
     public event EventHandler EvtActionPreCheck;

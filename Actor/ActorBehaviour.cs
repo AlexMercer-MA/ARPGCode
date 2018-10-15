@@ -10,45 +10,31 @@ public abstract class ActorBehaviour : MonoBehaviour
     public bool CanMove { get; set; }               //能否移动
     public bool IsLockMove { get; set; }            //是否锁定移动
     public float LockMoveSpeed { get; set; }        //强制移动速度
+    public float3 FlatSpeed { get; set; }            //水平速度
+    public float GSpeed { get; set; }               //重力速度
+    public float3 FinalSpeed { get; set; }           //总速度
 
     public bool CanRotate { get; set; }             //能否旋转
     public bool IsLockRotate { get; set; }          //是否锁定旋转
     public float LockTurnAngle { get; set; }        //强制锁定角度
-    
+    public float CurrentAngle { get; set; }         //当前角度
+    public float TargetAngle { get; set; }          //目标角度
+    public float RotateLerp { get; set; }           //角色转向平滑程度(当前角度转向目标角度，默认10f)
+
     public bool IsUseGravity { get; set; }          //是否受重力影响
     public bool IsUseCustomGravity { get; set; }    //是否使用自定义重力
     public float CustomGravity { get; set; }        //自定义重力值（标准重力为 -20f）
-    public float gSpeed { get; set; }               //重力速度
     public bool IsGrounded { get; set; }            //是否着地
 
     public bool CanJump { get; set; }               //能否跳跃
     public bool CanMultiJump { get; set; }          //能否多段跳
-    public int JumpNum { get; set; }                //当前跳跃次数
-    public int MultiJumpLimit { get; set; }         //多段跳次数上限
-    public float JumpInterval { get; set; }         //跳跃间隔
+    public int JumpCountNum { get; set; }           //当前跳跃次数
+    public int MultiJumpCountLimit { get; set; }    //多段跳次数上限
+    public float JumpTimeStamp { get; set; }        //跳跃时间戳
+    public float JumpTimeInterval { get; set; }     //跳跃间隔时间
     public float JumpForce { get; set; }            //跳跃力
     
     public abstract void UpdateBehaviour();         //更新方法
-    
-    public void SetCanJump(bool b)
-    {
-        CanJump = b;
-    }
-
-    public void SetCanMove(bool b)
-    {
-        CanJump = b;
-    }
-
-    public void SetCanMultiMove(bool b)
-    {
-        CanMultiJump = b;
-    }
-    
-    public void SetMultiJumpLimit(int num)
-    {
-        MultiJumpLimit = num;
-    }
 
     public void SetLockMoveSpeedValue(float value)
     {
@@ -74,20 +60,7 @@ public abstract class ActorBehaviour : MonoBehaviour
             IsLockRotate = true;
     }
 
-    /*
-    需要每帧在Update中调用，应该写在属性类中
-    public bool CheckIsAlive(bool b)
-    {
-        if (IsAlive && !b)
-            //Evt Killed
-            return false;
-        else if (!IsAlive && b)
-            //Evt Revive
-            return true;
-        else if (IsAlive && b)
-            return true;
-        else
-            return false;
-    }
-    */
+    //强制按某个方向位移
+    public abstract void ForceMove(Vector3 moveSpeed);
+    
 }

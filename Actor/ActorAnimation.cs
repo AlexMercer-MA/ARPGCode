@@ -10,6 +10,27 @@ public class ActorAnimation : MonoBehaviour
 
     //--------------------------------------------方法--------------------------------------------
 
+    //animator相关
+    public void SetInt(string name, int i)
+    {
+        anim.SetInt(name,i);
+    }
+
+    public void SetFloat(string name, float f)
+    {
+        anim.SetFloat(name,f);
+    }
+
+    public void SetBool(string name, bool b)
+    {
+        anim.SetBool(name,b);
+    }
+
+    public void SetTrigger(string name)
+    {
+        anim.SetTrigger(name);
+    }
+
     //表现
     //调用其他脚本的TrailStart
     //调用其他脚本的TrailEnd
